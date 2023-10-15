@@ -1,14 +1,19 @@
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Repository.IRepository;
+using FacilityFeedback.Repository.Repository;
+using FacilityFeedback.Service.IServices;
+using FacilityFeedback.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.AddRazorPages();
 builder.Services.AddDbContext<FacilityFeedbackContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IFloorRepository, FloorRepository>();
+builder.Services.AddScoped<IFloorService, FloorService>();  
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
