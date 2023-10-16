@@ -26,6 +26,11 @@ namespace FacilityFeedback.Repository.Repository
             throw new NotImplementedException();
         }
 
+        public Task<bool> DeleteAsync(Room entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<Room> Get()
         {
             throw new NotImplementedException();
@@ -47,6 +52,16 @@ namespace FacilityFeedback.Repository.Repository
         }
 
         public Room Update(Room entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Room> UpdateAsync(Room entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepositoryBase<Room>.Delete(Room entity)
         {
             throw new NotImplementedException();
         }

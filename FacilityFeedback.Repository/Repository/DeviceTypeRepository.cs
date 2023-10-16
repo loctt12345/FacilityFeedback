@@ -21,7 +21,12 @@ namespace FacilityFeedback.Repository.Repository
             throw new NotImplementedException();
         }
 
-        public DeviceType Delete(DeviceType entity)
+        public bool Delete(DeviceType entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(DeviceType entity)
         {
             throw new NotImplementedException();
         }
@@ -47,6 +52,11 @@ namespace FacilityFeedback.Repository.Repository
         }
 
         public DeviceType Update(DeviceType entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DeviceType> UpdateAsync(DeviceType entity)
         {
             throw new NotImplementedException();
         }

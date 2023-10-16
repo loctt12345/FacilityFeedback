@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FacilityFeedback.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
+
 namespace FacilityFeedback.Service.Services
 {
     public class FloorService : IFloorService
@@ -20,31 +22,38 @@ namespace FacilityFeedback.Service.Services
         {
             return (Task<List<Floor>?>)_floorRepository.Get();
         }
-        public List<Floor> GetAll1()
+        public async Task<List<Floor>> GetAllNoPaging()
         {
-            return _floorRepository.Get().ToList();
+            return await _floorRepository.Get().ToListAsync();
         }
 
-        public Task<Floor?> Create(Floor request)
+        public async Task<Floor?> Create(Floor request)
         {
-            throw new NotImplementedException();
+            var FloorCreate = await _floorRepository.CreateAsync(request);
+            return FloorCreate;
         }
 
-        public Task<Floor?> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _floorRepository.GetAsync(id);
+            if (entity == null)
+                throw new Exception("Not found");
+            await _floorRepository.DeleteAsync(entity);
+            return true;
         }
 
-        
-
-        public Task<Floor?> GetById(int id)
+        public async Task<Floor?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var result = await _floorRepository.GetAsync(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
-        public Task<Floor?> Update(Floor request)
+        public async Task<Floor?> Update(Floor request)
         {
-            throw new NotImplementedException();
+            return await _floorRepository.UpdateAsync(request);
+
         }
     }
 }

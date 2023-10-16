@@ -12,6 +12,7 @@ namespace FacilityFeedback.Data.Models
     public class Device
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public bool Status { get; set; }
         public DateTimeOffset ExpiredDay { get; set; }

@@ -11,6 +11,7 @@ namespace FacilityFeedback.Data.Models
     public class Room
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string RoomCode { get; set; }
         public bool Status { get; set; }

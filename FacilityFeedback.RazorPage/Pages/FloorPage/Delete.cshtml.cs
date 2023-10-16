@@ -6,56 +6,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.FloorPage
 {
     public class DeleteModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IFloorService _service;
 
-        public DeleteModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+        public DeleteModel(IFloorService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [BindProperty]
-      public Floor Floor { get; set; } = default!;
+        public Floor Floor { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Floor == null)
-            {
-                return NotFound();
-            }
-
-            var floor = await _context.Floor.FirstOrDefaultAsync(m => m.Id == id);
+            var floor = await _service.GetById(id);
 
             if (floor == null)
-            {
                 return NotFound();
-            }
-            else 
-            {
-                Floor = floor;
-            }
+
+            Floor = floor;
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null || _context.Floor == null)
-            {
-                return NotFound();
-            }
-            var floor = await _context.Floor.FindAsync(id);
-
-            if (floor != null)
-            {
-                Floor = floor;
-                _context.Floor.Remove(Floor);
-                await _context.SaveChangesAsync();
-            }
-
+            await _service.Delete(id);
             return RedirectToPage("./Index");
         }
     }

@@ -7,29 +7,25 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.FloorPage
 {
     public class EditModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IFloorService _service;
 
-        public EditModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+        public EditModel(IFloorService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [BindProperty]
         public Floor Floor { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Floor == null)
-            {
-                return NotFound();
-            }
-
-            var floor =  await _context.Floor.FirstOrDefaultAsync(m => m.Id == id);
+            var floor =  await _service.GetById(id);
             if (floor == null)
             {
                 return NotFound();
@@ -46,31 +42,8 @@ namespace FacilityFeedback.RazorPage.Pages.FloorPage
             {
                 return Page();
             }
-
-            _context.Attach(Floor).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FloorExists(Floor.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            var result = await _service.Update(Floor);
             return RedirectToPage("./Index");
-        }
-
-        private bool FloorExists(int id)
-        {
-          return (_context.Floor?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

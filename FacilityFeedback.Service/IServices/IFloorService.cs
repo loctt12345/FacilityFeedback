@@ -15,7 +15,7 @@ namespace FacilityFeedback.Service.IServices
         public Task<Floor?> GetById(int id);
         public Task<Floor?> Create(Floor request);
         public Task<Floor?> Update(Floor request);
-        public Task<Floor?> Delete(int id);
-        public List<Floor> GetAll1();
+        public Task<bool> Delete(int id);
+        public Task<List<Floor>> GetAllNoPaging();
     }
 }

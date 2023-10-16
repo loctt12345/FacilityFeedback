@@ -6,16 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.FloorPage
 {
     public class CreateModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IFloorService _service;
 
-        public CreateModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+        public CreateModel(IFloorService service)
         {
-            _context = context;
+            _service = service;
         }
 
         public IActionResult OnGet()
@@ -30,13 +31,11 @@ namespace FacilityFeedback.RazorPage.Pages.FloorPage
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Floor == null || Floor == null)
+          if (!ModelState.IsValid || Floor == null)
             {
                 return Page();
             }
-
-            _context.Floor.Add(Floor);
-            await _context.SaveChangesAsync();
+            var result = await _service.Create(Floor);
 
             return RedirectToPage("./Index");
         }

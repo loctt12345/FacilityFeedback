@@ -16,6 +16,8 @@ namespace FacilityFeedback.Repository
         public TEntity Create(TEntity entity);
         public Task<TEntity> CreateAsync(TEntity entity);
         public TEntity Update(TEntity entity);
-        public TEntity Delete(TEntity entity);
+        public Task<TEntity> UpdateAsync(TEntity entity);
+        public bool Delete(TEntity entity);
+        public Task<bool> DeleteAsync(TEntity entity);
     }
 }

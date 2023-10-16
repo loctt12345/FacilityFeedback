@@ -26,6 +26,11 @@ namespace FacilityFeedback.Repository.Repository
             throw new NotImplementedException();
         }
 
+        public Task<bool> DeleteAsync(TaskProcess entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<TaskProcess> Get()
         {
             throw new NotImplementedException();
@@ -47,6 +52,16 @@ namespace FacilityFeedback.Repository.Repository
         }
 
         public TaskProcess Update(TaskProcess entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TaskProcess> UpdateAsync(TaskProcess entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepositoryBase<TaskProcess>.Delete(TaskProcess entity)
         {
             throw new NotImplementedException();
         }

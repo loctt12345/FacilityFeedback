@@ -20,7 +20,7 @@ namespace FacilityFeedback.RazorPage.Pages
 
         public async Task OnGet()
         {
-            Floor = _floorService.GetAll1();
+            Floor = await _floorService.GetAllNoPaging();
         }
     }
 }

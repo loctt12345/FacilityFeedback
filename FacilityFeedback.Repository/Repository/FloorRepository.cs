@@ -31,11 +31,18 @@ namespace FacilityFeedback.Repository.Repository
             return result.Entity;
         }
 
-        public Floor Delete(Floor entity)
+        public async Task<bool> Delete(Floor entity)
         {
             var result = _context.Floor.Remove(entity);
-            _context.SaveChanges();
-            return result.Entity;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(Floor entity)
+        {
+            var result = _context.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public IQueryable<Floor> Get()
@@ -50,12 +57,18 @@ namespace FacilityFeedback.Repository.Repository
 
         public Floor Get<TKey>(TKey id)
         {
-            return _context.Floor.Find(id);
+            var result = _context.Floor.Find(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
         public async Task<Floor> GetAsync<TKey>(TKey id)
         {
-            return await _context.Floor.FindAsync(id);
+            var result = await _context.Floor.FindAsync(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
         public Floor Update(Floor entity)
@@ -63,6 +76,18 @@ namespace FacilityFeedback.Repository.Repository
             var result = _context.Floor.Update(entity);
             _context.SaveChanges();
             return result.Entity;
+        }
+
+        public async Task<Floor> UpdateAsync(Floor entity)
+        {
+            var result = _context.Floor.Update(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        bool IRepositoryBase<Floor>.Delete(Floor entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

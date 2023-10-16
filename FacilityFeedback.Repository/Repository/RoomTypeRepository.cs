@@ -38,6 +38,11 @@ namespace FacilityFeedback.Repository.Repository
             return result.Entity;
         }
 
+        public Task<bool> DeleteAsync(RoomType entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<RoomType> Get()
         {
             return _context.RoomType;
@@ -50,12 +55,18 @@ namespace FacilityFeedback.Repository.Repository
 
         public RoomType Get<TKey>(TKey id)
         {
-            return _context.RoomType.Find(id);
+            var result = _context.RoomType.Find(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
         public async Task<RoomType> GetAsync<TKey>(TKey id)
         {
-            return await _context.RoomType.FindAsync(id);
+            var result = await _context.RoomType.FindAsync(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
         public RoomType Update(RoomType entity)
@@ -63,6 +74,16 @@ namespace FacilityFeedback.Repository.Repository
             var result = _context.RoomType.Update(entity);
             _context.SaveChanges();
             return result.Entity;
+        }
+
+        public Task<RoomType> UpdateAsync(RoomType entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepositoryBase<RoomType>.Delete(RoomType entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

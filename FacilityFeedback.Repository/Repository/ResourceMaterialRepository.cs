@@ -26,6 +26,11 @@ namespace FacilityFeedback.Repository.Repository
             throw new NotImplementedException();
         }
 
+        public Task<bool> DeleteAsync(ResourceMaterial entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<ResourceMaterial> Get()
         {
             throw new NotImplementedException();
@@ -47,6 +52,16 @@ namespace FacilityFeedback.Repository.Repository
         }
 
         public ResourceMaterial Update(ResourceMaterial entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResourceMaterial> UpdateAsync(ResourceMaterial entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepositoryBase<ResourceMaterial>.Delete(ResourceMaterial entity)
         {
             throw new NotImplementedException();
         }

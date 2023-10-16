@@ -12,6 +12,7 @@ namespace FacilityFeedback.Data.Models
     public class TaskProcess
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTimeOffset StartTime { get; set; }
         public DateTimeOffset EndTime { get; set; }

@@ -6,26 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.FloorPage
 {
     public class IndexModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IFloorService _service;
 
-        public IndexModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+        public IndexModel(IFloorService service)
         {
-            _context = context;
+            _service = service;
         }
 
         public IList<Floor> Floor { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Floor != null)
-            {
-                Floor = await _context.Floor.ToListAsync();
-            }
+            Floor = await _service.GetAllNoPaging();
         }
     }
 }

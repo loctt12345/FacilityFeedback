@@ -6,36 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.FloorPage
 {
     public class DetailsModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IFloorService _service;
 
-        public DetailsModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+        public DetailsModel(IFloorService service)
         {
-            _context = context;
+            _service = service;
         }
 
       public Floor Floor { get; set; } = default!; 
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Floor == null)
-            {
+            var floor = await _service.GetById(id);
+            if (floor == null) 
                 return NotFound();
-            }
-
-            var floor = await _context.Floor.FirstOrDefaultAsync(m => m.Id == id);
-            if (floor == null)
-            {
-                return NotFound();
-            }
-            else 
-            {
-                Floor = floor;
-            }
+            Floor = floor;
             return Page();
         }
     }
