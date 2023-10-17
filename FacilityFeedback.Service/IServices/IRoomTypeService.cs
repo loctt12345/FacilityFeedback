@@ -1,4 +1,5 @@
 ﻿using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace FacilityFeedback.Service.IServices
 {
     public interface IRoomTypeService
     {
-     /*   public Task<List<RoomType>?> GetAll(BoxTypeFilter filter, PagingModel pagingModel);
+        public Task<List<RoomType>?> GetAll(PagingModel pagingModel);
         public Task<RoomType?> GetById(int id);
-        public Task<RoomType?> Create(CreateBoxTypeRequestModel request);
-        public Task<RoomType?> Update(UpdateBoxTypeRequestModel request);
-        public Task<RoomType?> Delete(int id);*/
+        public Task<RoomType?> Create(RoomType request);
+        public Task<RoomType?> Update(RoomType request);
+        public Task<bool> Delete(int id);
+        public Task<List<RoomType>> GetAllNoPaging();
     }
 }

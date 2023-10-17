@@ -13,7 +13,10 @@ builder.Services.AddDbContext<FacilityFeedbackContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IFloorRepository, FloorRepository>();
+builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();  
+
 builder.Services.AddScoped<IFloorService, FloorService>();  
+builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();  
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

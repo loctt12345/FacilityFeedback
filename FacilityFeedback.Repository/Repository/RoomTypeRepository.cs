@@ -31,16 +31,18 @@ namespace FacilityFeedback.Repository.Repository
             return result.Entity;
         }
 
-        public RoomType Delete(RoomType entity)
+        public async Task<bool> Delete(RoomType entity)
         {
             var result = _context.RoomType.Remove(entity);
-            _context.SaveChanges();
-            return result.Entity;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<bool> DeleteAsync(RoomType entity)
+        public async Task<bool> DeleteAsync(RoomType entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public IQueryable<RoomType> Get()
@@ -76,9 +78,11 @@ namespace FacilityFeedback.Repository.Repository
             return result.Entity;
         }
 
-        public Task<RoomType> UpdateAsync(RoomType entity)
+        public async Task<RoomType> UpdateAsync(RoomType entity)
         {
-            throw new NotImplementedException();
+            var result = _context.RoomType.Update(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
         bool IRepositoryBase<RoomType>.Delete(RoomType entity)

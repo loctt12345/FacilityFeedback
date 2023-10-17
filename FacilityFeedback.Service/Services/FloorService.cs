@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FacilityFeedback.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using FacilityFeedback.Service.Configuration;
 
 namespace FacilityFeedback.Service.Services
 {
@@ -54,6 +55,11 @@ namespace FacilityFeedback.Service.Services
         {
             return await _floorRepository.UpdateAsync(request);
 
+        }
+
+        public Task<List<Floor>?> GetAll(PagingModel pagingModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }
