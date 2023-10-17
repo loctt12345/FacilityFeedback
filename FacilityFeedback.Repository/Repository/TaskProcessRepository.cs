@@ -1,5 +1,6 @@
 ﻿using FacilityFeedback.Data.Models;
 using FacilityFeedback.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,54 +12,77 @@ namespace FacilityFeedback.Repository.Repository
 {
     public class TaskProcessRepository : ITaskProcessRepository
     {
+        private readonly FacilityFeedbackContext _context;
+        public TaskProcessRepository(FacilityFeedbackContext context)
+        {
+            _context = context;
+        }
         public TaskProcess Create(TaskProcess entity)
         {
-            throw new NotImplementedException();
+            var result = _context.TaskProcess.Add(entity);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
-        public Task<TaskProcess> CreateAsync(TaskProcess entity)
+        public async Task<TaskProcess> CreateAsync(TaskProcess entity)
         {
-            throw new NotImplementedException();
+            var result = await _context.TaskProcess.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public TaskProcess Delete(TaskProcess entity)
+        public async Task<bool> Delete(TaskProcess entity)
         {
-            throw new NotImplementedException();
+            var result = _context.TaskProcess.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<bool> DeleteAsync(TaskProcess entity)
+        public async Task<bool> DeleteAsync(TaskProcess entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public IQueryable<TaskProcess> Get()
         {
-            throw new NotImplementedException();
+            return _context.TaskProcess;
         }
 
         public IQueryable<TaskProcess> Get(Expression<Func<TaskProcess, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _context.TaskProcess.Where(predicate);
         }
 
         public TaskProcess Get<TKey>(TKey id)
         {
-            throw new NotImplementedException();
+            var result = _context.TaskProcess.Find(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
-        public Task<TaskProcess> GetAsync<TKey>(TKey id)
+        public async Task<TaskProcess> GetAsync<TKey>(TKey id)
         {
-            throw new NotImplementedException();
+            var result = await _context.TaskProcess.FindAsync(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
         public TaskProcess Update(TaskProcess entity)
         {
-            throw new NotImplementedException();
+            var result = _context.TaskProcess.Update(entity);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
-        public Task<TaskProcess> UpdateAsync(TaskProcess entity)
+        public async Task<TaskProcess> UpdateAsync(TaskProcess entity)
         {
-            throw new NotImplementedException();
+            var result = _context.TaskProcess.Update(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
         bool IRepositoryBase<TaskProcess>.Delete(TaskProcess entity)
