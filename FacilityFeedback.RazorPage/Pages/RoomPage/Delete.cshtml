@@ -1,0 +1,52 @@
+﻿@page
+@model FacilityFeedback.RazorPage.Pages.RoomPage.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-7">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Detail Room</h6>
+                <div class="row mb-3">
+                    @Html.LabelFor(m => m.Room.RoomCode, new {@class = "col-sm-2 col-form-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Room.RoomCode, new {@class = "form-control", @disabled = "true"})
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    @Html.LabelFor(m => m.Room.Status, new {@class = "pt-0 col-sm-2 col-form-label"})
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.Room.Status, new {@class = "form-check-input", @disabled = "true" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    @Html.LabelFor(m => m.Room.Floor, new {@class = "col-sm-2 col-form-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Room.Floor.Code, new {@class = "form-control", @disabled = "true"})
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    @Html.LabelFor(m => m.Room.RoomType, new {@class = "col-sm-2 col-form-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Room.RoomType.Description, new {@class = "form-control", @disabled = "true"})
+                    </div>
+                </div>
+                <form method="post">
+                    @Html.TextBoxFor(m => m.Room.Id, new {@hidden = "true"})
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <div style="margin-top: 20px;">
+                    <a asp-page="./Edit" asp-route-id="@Model.Room?.Id">Edit</a> |
+                    <a asp-page="./Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

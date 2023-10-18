@@ -14,10 +14,12 @@ builder.Services.AddDbContext<FacilityFeedbackContext>(options =>
 
 builder.Services.AddScoped<IFloorRepository, FloorRepository>();
 builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();  
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();  
 builder.Services.AddScoped<ITaskProcessRepository, TaskProcessRepository>();  
 
 builder.Services.AddScoped<IFloorService, FloorService>();  
 builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();  
+builder.Services.AddScoped<IRoomService, RoomService>();  
 builder.Services.AddScoped<ITaskProcessService, TaskProcessService>();  
 
 builder.Services.AddDistributedMemoryCache();
