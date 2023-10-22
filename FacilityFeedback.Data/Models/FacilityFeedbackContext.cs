@@ -30,7 +30,6 @@ namespace FacilityFeedback.Data.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            var x = AppDomain.CurrentDomain.BaseDirectory;
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json")
@@ -40,7 +39,6 @@ namespace FacilityFeedback.Data.Models
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"
                     ), options => options.EnableRetryOnFailure());
             }
-
         }
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 

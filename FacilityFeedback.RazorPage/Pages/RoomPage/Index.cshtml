@@ -1,4 +1,6 @@
 ﻿@page
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
 @model FacilityFeedback.RazorPage.Pages.RoomPage.IndexModel
 
 @{
@@ -10,45 +12,74 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Room[0].RoomCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Room[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Room[0].Floor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Room[0].RoomType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Room) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Floor.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomType.RoomCode)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (Model.RoomPaging != null && Model.RoomPaging.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Room Code")
+                </th>
+                <th>
+                    @Html.DisplayName("Status")
+                </th>
+                <th>
+                    @Html.DisplayName("Floor")
+                </th>
+                <th>
+                    @Html.DisplayName("Room Type")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RoomPaging)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomCode)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+
+                    <td>
+                        @if (item.Floor != null)
+                            @Html.DisplayFor(modelItem => item.Floor.Code)
+                        else
+                            @Html.Display("No Floor")
+
+                    </td>
+                    <td>
+                            @if (item.RoomType != null)
+                            @Html.DisplayFor(modelItem => item.RoomType.Description)
+                        else
+                            @Html.Display("No Room Type")
+
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        @Html.PagedListPager(Model.RoomPaging, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
+    {
+    ActiveLiElementClass = "active",
+    PageClasses = new[]{ "page-link"},
+    LiElementClasses=new[] { "page-item" },
+    UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+    LinkToNextPageFormat = "Next",
+    LinkToPreviousPageFormat = "Previous",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always
+    })
+    </nav>
 }
-    </tbody>
-</table>

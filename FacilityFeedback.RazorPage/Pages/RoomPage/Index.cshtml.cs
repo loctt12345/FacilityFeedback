@@ -6,28 +6,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
+using X.PagedList;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.RoomPage
 {
     public class IndexModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IRoomService _service;
+        private readonly IConfiguration _config;
 
-        public IndexModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+
+        public IndexModel(IRoomService service, IConfiguration config)
         {
-            _context = context;
+            _service = service;
+            _config = config;
         }
 
-        public IList<Room> Room { get;set; } = default!;
+        public IPagedList<Room>? RoomPaging { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int pageIndex)
         {
-            if (_context.Room != null)
-            {
-                Room = await _context.Room
-                .Include(r => r.Floor)
-                .Include(r => r.RoomType).ToListAsync();
-            }
+            var pageSize = Int32.Parse(_config["BaseConfig:PageSize"] ?? "10");
+            pageIndex = pageIndex < 1 ? 1 : pageIndex;
+            var Room = await _service.GetAllNoPaging();
+            RoomPaging = await Room.ToPagedListAsync(pageIndex, pageSize);
+
+
         }
     }
 }

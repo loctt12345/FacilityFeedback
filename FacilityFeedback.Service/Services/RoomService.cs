@@ -25,7 +25,10 @@ namespace FacilityFeedback.Service.Services
         }
         public async Task<List<Room>> GetAllNoPaging()
         {
-            return await _roomRepository.Get().ToListAsync();
+            return await _roomRepository.Get()
+                .Include(f => f.Floor)
+                .Include(rt => rt.RoomType)
+                .ToListAsync();
         }
 
         public async Task<Room?> Create(Room request)
