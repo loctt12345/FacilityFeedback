@@ -13,6 +13,8 @@ namespace FacilityFeedback.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTimeOffset Time { get; set; }
         public string? Description { get; set; }
         public bool Status { get; set; }
