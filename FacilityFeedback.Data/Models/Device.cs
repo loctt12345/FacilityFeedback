@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@ namespace FacilityFeedback.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public bool Status { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTimeOffset ExpiredDay { get; set; }
         public string DeviceCode { get; set; }
         public string Manufacture { get; set; }

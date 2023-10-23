@@ -10,10 +10,11 @@ namespace FacilityFeedback.Service.IServices
 {
     public interface IDeviceService
     {
-       /* public Task<List<Device>?> GetAll(BoxTypeFilter filter, PagingModel pagingModel);
+        public Task<List<Device>?> GetAll(PagingModel pagingModel);
         public Task<Device?> GetById(int id);
-        public Task<Device?> Create(CreateBoxTypeRequestModel request);
-        public Task<Device?> Update(UpdateBoxTypeRequestModel request);
-        public Task<Device?> Delete(int id);*/
+        public Task<Device?> Create(Device request);
+        public Task<Device?> Update(Device request);
+        public Task<bool> Delete(int id);
+        public Task<List<Device>> GetAllNoPaging();
     }
 }
