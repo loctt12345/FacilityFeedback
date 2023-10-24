@@ -13,10 +13,13 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
     public class DeleteModel : PageModel
     {
         private readonly IRoomService _service;
-
-        public DeleteModel(IRoomService service)
+        private readonly IFloorService _serviceFloor;
+        private readonly IRoomTypeService _serviceRoomType;
+        public DeleteModel(IRoomService service, IFloorService floorService, IRoomTypeService roomTypeService)
         {
             _service = service;
+            _serviceFloor = floorService;
+            _serviceRoomType = roomTypeService;
         }
 
         [BindProperty]
@@ -33,6 +36,8 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
             }
             else 
             {
+                room.Floor = await _serviceFloor.GetById(room.FloorId);
+                room.RoomType = await _serviceRoomType.GetById(room.RoomTypeId);
                 Room = room;
             }
             return Page();

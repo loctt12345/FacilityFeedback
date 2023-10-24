@@ -29,8 +29,6 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-
-
             var room = await _service.GetById(id);
             if (room == null)
             {
