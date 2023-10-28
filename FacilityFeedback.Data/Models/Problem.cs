@@ -21,7 +21,7 @@ namespace FacilityFeedback.Data.Models
         public int DeviceId { get; set; }
 
         [ForeignKey("DeviceId")]
-        public virtual Device Device { get; set; }
+        public virtual Device? Device { get; set; }
         public ICollection<TaskProcess> Tasks { get; set; } = new HashSet<TaskProcess>(); 
 
     }

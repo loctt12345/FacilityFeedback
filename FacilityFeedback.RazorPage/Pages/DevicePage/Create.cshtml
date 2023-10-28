@@ -32,7 +32,7 @@
                         <div class="col-sm-10">
                             @Html.TextBoxFor(m => m.Device.Description, new {@class = "form-control"})
                         </div>
-                    </div> 
+                    </div>
 
                     <div class="row mb-3">
                         @Html.LabelFor(m => m.Device.ExpiredDay, new {@class = "col-sm-2 col-form-label"})
@@ -51,15 +51,19 @@
 
                     <div class="row">
                         @Html.LabelFor(m => m.Device.DeviceType, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Device.DeviceTypeId, deviceTypeSelectList, new {@class="form-select mb-3"})
 
+                        </div>
                     </div>
-                    @Html.DropDownListFor(m => m.Device.DeviceTypeId, deviceTypeSelectList, new {@class="form-select mb-3"})
 
                     <div class="row">
                         @Html.LabelFor(m => m.Device.Room, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Device.RoomId, roomSelectList, new {@class="form-select mb-3"})
 
+                        </div>
                     </div>
-                    @Html.DropDownListFor(m => m.Device.RoomId, roomSelectList, new {@class="form-select mb-3"})
 
                     <button type="submit" class="btn btn-primary">Create</button>
                 </form>
@@ -75,5 +79,7 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

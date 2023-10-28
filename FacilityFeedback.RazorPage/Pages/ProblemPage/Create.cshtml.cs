@@ -26,7 +26,7 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
 
         public async Task<IActionResult> OnGet()
         {
-            ViewData["roomId"] = new SelectList(await _roomService.GetAllNoPaging(), "Id", "RoomCode");
+            ViewData["RoomId"] = new SelectList(await _roomService.GetAllNoPaging(), "Id", "RoomCode");
             return Page();
         }
 
@@ -37,10 +37,14 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            Problem.Device = null;
             if (!ModelState.IsValid || Problem == null)
             {
+                ViewData["RoomId"] = new SelectList(await _roomService.GetAllNoPaging(), "Id", "RoomCode");
                 return Page();
             }
+            //Problem.DeviceId = 3;
+
             var result = await _service.Create(Problem);
 
             return RedirectToPage("./Index");
