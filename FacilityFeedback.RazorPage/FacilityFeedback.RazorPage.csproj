@@ -25,4 +25,8 @@
     <ProjectReference Include="..\FacilityFeedback.Service\FacilityFeedback.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\Device\" />
+  </ItemGroup>
+
 </Project>

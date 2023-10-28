@@ -7,20 +7,26 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using FacilityFeedback.Data.Models;
 using FacilityFeedback.Service.IServices;
+using NuGet.Protocol;
 
 namespace FacilityFeedback.RazorPage.Pages.ProblemPage
 {
     public class CreateModel : PageModel
     {
         private readonly IProblemService _service;
-
-        public CreateModel(IProblemService service)
+        private readonly IRoomService _roomService;
+        private readonly IDeviceService _deviceService;
+        
+        public CreateModel(IProblemService service, IRoomService roomService, IDeviceService deviceService)
         {
             _service = service;
+            _roomService = roomService;
+            _deviceService = deviceService;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            ViewData["roomId"] = new SelectList(await _roomService.GetAllNoPaging(), "Id", "RoomCode");
             return Page();
         }
 
@@ -38,6 +44,12 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
             var result = await _service.Create(Problem);
 
             return RedirectToPage("./Index");
+        }
+        public async Task<JsonResult> OnGetDevice(int roomId)
+        {
+            var deviceList = await _deviceService.GetAllNoPaging();
+            var deviceSelectList = new SelectList( deviceList.Where(d => d.RoomId == roomId), "Id", "Description");
+            return new JsonResult(deviceSelectList);
         }
     }
 }
