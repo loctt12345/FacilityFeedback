@@ -6,34 +6,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.DevicePage
 {
     public class DetailsModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IDeviceService _service;
+        private readonly IDeviceTypeService _deviceTypeService;
+        private readonly IRoomService _roomService;
 
-        public DetailsModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+        public DetailsModel(IDeviceService service, IDeviceTypeService deviceTypeService, IRoomService roomService)
         {
-            _context = context;
+            _service = service;
+            _deviceTypeService = deviceTypeService;
+            _roomService = roomService;
         }
 
-      public Device Device { get; set; } = default!; 
+        public Device Device { get; set; } = default!; 
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Device == null)
-            {
-                return NotFound();
-            }
-
-            var device = await _context.Device.FirstOrDefaultAsync(m => m.Id == id);
+            var device = await _service.GetById(id);
             if (device == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
+                device.DeviceType = await _deviceTypeService.GetById(device.DeviceTypeId);
+                device.Room = await _roomService.GetById(device.RoomId);
                 Device = device;
             }
             return Page();

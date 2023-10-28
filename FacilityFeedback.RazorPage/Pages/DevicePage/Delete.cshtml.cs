@@ -6,55 +6,47 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
+using FacilityFeedback.Service.IServices;
 
 namespace FacilityFeedback.RazorPage.Pages.DevicePage
 {
     public class DeleteModel : PageModel
     {
-        private readonly FacilityFeedback.Data.Models.FacilityFeedbackContext _context;
+        private readonly IDeviceService _service;
+        private readonly IDeviceTypeService _deviceTypeService;
+        private readonly IRoomService _roomService;
 
-        public DeleteModel(FacilityFeedback.Data.Models.FacilityFeedbackContext context)
+        public DeleteModel(IDeviceService service, IDeviceTypeService deviceTypeService, IRoomService roomService)
         {
-            _context = context;
+            _service = service;
+            _deviceTypeService = deviceTypeService;
+            _roomService = roomService;
         }
 
-        [BindProperty]
-      public Device Device { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGet(int id)
         {
-            if (id == null || _context.Device == null)
-            {
-                return NotFound();
-            }
-
-            var device = await _context.Device.FirstOrDefaultAsync(m => m.Id == id);
-
+            var device = await _service.GetById(id);
             if (device == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
+                device.DeviceType = await _deviceTypeService.GetById(device.DeviceTypeId);
+                device.Room = await _roomService.GetById(device.RoomId);
                 Device = device;
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (id == null || _context.Device == null)
-            {
-                return NotFound();
-            }
-            var device = await _context.Device.FindAsync(id);
+        [BindProperty]
+        public Device Device { get; set; } = default!;
 
-            if (device != null)
-            {
-                Device = device;
-                _context.Device.Remove(Device);
-                await _context.SaveChangesAsync();
-            }
+
+        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+            await _service.Delete(id);
 
             return RedirectToPage("./Index");
         }

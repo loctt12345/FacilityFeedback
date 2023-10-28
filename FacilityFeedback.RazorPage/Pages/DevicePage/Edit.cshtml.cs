@@ -24,10 +24,19 @@ namespace FacilityFeedback.RazorPage.Pages.DevicePage
             _roomService = roomService;
         }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(int id)
         {
-            ViewData["DeviceTypeId"] = new SelectList(await _deviceTypeService.GetAllNoPaging(), "Id", "Name");
-            ViewData["RoomId"] = new SelectList(await _roomService.GetAllNoPaging(), "Id", "RoomCode");
+            var device = await _service.GetById(id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                ViewData["DeviceTypeId"] = new SelectList(await _deviceTypeService.GetAllNoPaging(), "Id", "Name");
+                ViewData["RoomId"] = new SelectList(await _roomService.GetAllNoPaging(), "Id", "RoomCode");
+                Device = device;
+            }
             return Page();
         }
 

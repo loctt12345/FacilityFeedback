@@ -3,62 +3,73 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var deviceTypeSelectList = (SelectList)ViewBag.DeviceTypeId;
+    var roomSelectList = (SelectList)ViewBag.RoomId;
 }
 
-<h1>Edit</h1>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-7">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Create Device</h6>
+                <form method="post">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Device.Id, new {@class = "form-control", @hidden = "true"})
 
-<h4>Device</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Device.Id" />
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Device.Status" /> @Html.DisplayNameFor(model => model.Device.Status)
-                </label>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.DeviceCode, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Device.DeviceCode, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.Manufacture, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Device.Manufacture, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.Description, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Device.Description, new {@class = "form-control"})
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.ExpiredDay, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.EditorFor(m => m.Device.ExpiredDay, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.Status, new {@class = "pt-0 col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.Device.Status, new {@class = "form-check-input"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(m => m.Device.DeviceType, new {@class = "col-sm-2 col-form-label"})
+                    </div>
+                    @Html.DropDownListFor(m => m.Device.DeviceTypeId, deviceTypeSelectList, new {@class="form-select mb-3"})
+
+                    <div class="row">
+                        @Html.LabelFor(m => m.Device.Room, new {@class = "col-sm-2 col-form-label"})
+                    </div>
+                    @Html.DropDownListFor(m => m.Device.RoomId, roomSelectList, new {@class="form-select mb-3"})
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+
+                <div style="margin-top: 20px;">
+                    <a asp-page="Index">Back to List</a>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Device.ExpiredDay" class="control-label"></label>
-                <input asp-for="Device.ExpiredDay" class="form-control" />
-                <span asp-validation-for="Device.ExpiredDay" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Device.DeviceCode" class="control-label"></label>
-                <input asp-for="Device.DeviceCode" class="form-control" />
-                <span asp-validation-for="Device.DeviceCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Device.Manufacture" class="control-label"></label>
-                <input asp-for="Device.Manufacture" class="form-control" />
-                <span asp-validation-for="Device.Manufacture" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Device.Description" class="control-label"></label>
-                <input asp-for="Device.Description" class="form-control" />
-                <span asp-validation-for="Device.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Device.DeviceTypeId" class="control-label"></label>
-                <select asp-for="Device.DeviceTypeId" class="form-control" asp-items="ViewBag.DeviceTypeId"></select>
-                <span asp-validation-for="Device.DeviceTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Device.RoomId" class="control-label"></label>
-                <select asp-for="Device.RoomId" class="form-control" asp-items="ViewBag.RoomId"></select>
-                <span asp-validation-for="Device.RoomId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
