@@ -14,10 +14,13 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
     public class EditModel : PageModel
     {
         private readonly IProblemService _service;
-
-        public EditModel(IProblemService service)
+        private readonly IRoomService _roomService;
+        private readonly IDeviceService _deviceService;
+        public EditModel(IProblemService service, IRoomService roomService, IDeviceService deviceService)
         {
             _service = service;
+            _roomService = roomService;
+            _deviceService = deviceService;
         }
 
         [BindProperty]
@@ -26,6 +29,9 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var problem = await _service.GetById(id);
+            problem.Device = await _deviceService.GetById(problem.DeviceId);
+            ViewData["RoomId"] = new SelectList(await _roomService.GetAllNoPaging(), "Id", "RoomCode", problem.Device.RoomId);
+
             if (problem == null)
             {
                 return NotFound();
@@ -44,6 +50,13 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
             }
             var result = await _service.Update(Problem);
             return RedirectToPage("./Index");
+        }
+
+        public async Task<JsonResult> OnGetDevice(int roomId)
+        {
+            var deviceList = await _deviceService.GetAllNoPaging();
+            var deviceSelectList = new SelectList(deviceList.Where(d => d.RoomId == roomId), "Id", "Description");
+            return new JsonResult(deviceSelectList);
         }
     }
 }

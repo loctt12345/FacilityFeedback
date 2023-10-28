@@ -13,14 +13,18 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
     public class CreateModel : PageModel
     {
         private readonly ITaskProcessService _service;
+        private readonly IProblemService _problemService;
 
-        public CreateModel(ITaskProcessService service)
+
+        public CreateModel(ITaskProcessService service, IProblemService problemService)
         {
             _service = service;
+            _problemService = problemService;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            ViewData["ProblemId"] = new SelectList(await _problemService.GetAllNoPaging(), "Id", "Description");
             return Page();
         }
 
@@ -31,8 +35,13 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            if (TaskProcess.EndTime < TaskProcess.StartTime)
+                ModelState.AddModelError("TaskProcess.StartTime",
+                                 "End Time must be after Start Time.");
+
             if (!ModelState.IsValid || TaskProcess == null)
             {
+                ViewData["ProblemId"] = new SelectList(await _problemService.GetAllNoPaging(), "Id", "Description");
                 return Page();
             }
             var result = await _service.Create(TaskProcess);

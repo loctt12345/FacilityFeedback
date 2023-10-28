@@ -1,55 +1,73 @@
 ﻿@page
+@using FacilityFeedback.Data.EnumModels;
 @model FacilityFeedback.RazorPage.Pages.TaskProcessPage.EditModel
 
 @{
     ViewData["Title"] = "Edit";
+    var problemSelectList = (SelectList)ViewBag.ProblemId;
 }
 
-<h1>Edit</h1>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-7">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Add Task Process</h6>
+                <form method="post">
+                    <div class="row mb-3">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.TaskProcess.Id, new {@hidden = "true"})
 
-<h4>TaskProcess</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TaskProcess.Id" />
-            <div class="form-group">
-                <label asp-for="TaskProcess.StartTime" class="control-label"></label>
-                <input asp-for="TaskProcess.StartTime" class="form-control" />
-                <span asp-validation-for="TaskProcess.StartTime" class="text-danger"></span>
+                        @Html.LabelFor(m => m.TaskProcess.StartTime, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.EditorFor(m => m.TaskProcess.StartTime, new {@class = "form-control"})
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.TaskProcess.EndTime, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.EditorFor(m => m.TaskProcess.EndTime, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.TaskProcess.Description, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.TaskProcess.Description, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(m => m.TaskProcess.Problem, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.TaskProcess.ProblemId, problemSelectList, new {@class="form-select mb-3"})
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="hidden" id="currentProcess" value="@Model.TaskProcess.Process" disabled="disabled"/>
+                        @Html.LabelFor(m => m.TaskProcess.Process, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @*   @Html.EnumDropDownListFor(m => m.TaskProcess.Process, new {@class="form-select mb-3"}) *@
+                            <select asp-for="TaskProcess.Process" class="form-select mb-3" 
+                             asp-items="Html.GetEnumSelectList<ProcessStatus>()">
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+
+                <div style="margin-top: 20px;">
+                    <a asp-page="Index">Back to List</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="TaskProcess.EndTime" class="control-label"></label>
-                <input asp-for="TaskProcess.EndTime" class="form-control" />
-                <span asp-validation-for="TaskProcess.EndTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TaskProcess.Description" class="control-label"></label>
-                <input asp-for="TaskProcess.Description" class="form-control" />
-                <span asp-validation-for="TaskProcess.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TaskProcess.Process" class="control-label"></label>
-                <select asp-for="TaskProcess.Process" class="form-control"></select>
-                <span asp-validation-for="TaskProcess.Process" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TaskProcess.ProblemId" class="control-label"></label>
-                <select asp-for="TaskProcess.ProblemId" class="form-control" asp-items="ViewBag.ProblemId"></select>
-                <span asp-validation-for="TaskProcess.ProblemId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        <script src="../js/TaskProcess/TaskProcessPageEdit.js"></script>
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

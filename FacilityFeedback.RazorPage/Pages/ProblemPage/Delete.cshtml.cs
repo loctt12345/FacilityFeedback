@@ -13,10 +13,13 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
     public class DeleteModel : PageModel
     {
         private readonly IProblemService _service;
+        private readonly ITaskProcessService _taskProcessService;
 
-        public DeleteModel(IProblemService service)
+
+        public DeleteModel(IProblemService service, ITaskProcessService taskProcessService)
         {
             _service = service;
+            _taskProcessService = taskProcessService;
         }
 
         [BindProperty]
@@ -36,6 +39,13 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
         public async Task<IActionResult> OnPostAsync(int id)
         {
             await _service.Delete(id);
+
+            //Delete list Task
+            var listTaskProcess = await _taskProcessService.GetAllNoPaging();
+            var listTaskOfProblem = listTaskProcess.Where(tp => tp.Id == id).ToList();
+            foreach (var item in listTaskOfProblem)
+                await _taskProcessService.Delete(item.Id);
+
             return RedirectToPage("./Index");
         }
     }

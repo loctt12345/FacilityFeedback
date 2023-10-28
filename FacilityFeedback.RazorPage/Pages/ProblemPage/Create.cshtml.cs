@@ -16,12 +16,14 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
         private readonly IProblemService _service;
         private readonly IRoomService _roomService;
         private readonly IDeviceService _deviceService;
+        private readonly ITaskProcessService _taskProcessService;
         
-        public CreateModel(IProblemService service, IRoomService roomService, IDeviceService deviceService)
+        public CreateModel(IProblemService service, IRoomService roomService, IDeviceService deviceService, ITaskProcessService taskProcessService)
         {
             _service = service;
             _roomService = roomService;
             _deviceService = deviceService;
+            _taskProcessService = taskProcessService;
         }
 
         public async Task<IActionResult> OnGet()
@@ -46,7 +48,12 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
             //Problem.DeviceId = 3;
 
             var result = await _service.Create(Problem);
-
+            var taskProcess = new TaskProcess();
+            taskProcess.StartTime = DateTime.Now;
+            taskProcess.EndTime = DateTime.MaxValue;
+            taskProcess.Description = result.Description;
+            taskProcess.ProblemId = result.Id;
+            var createTaskProcess = _taskProcessService.Create(taskProcess);
             return RedirectToPage("./Index");
         }
         public async Task<JsonResult> OnGetDevice(int roomId)

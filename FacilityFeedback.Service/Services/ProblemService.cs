@@ -27,6 +27,7 @@ namespace FacilityFeedback.Service.Services
         {
             return await _ProblemRepository.Get()
                 .Include(tp => tp.Tasks)
+                .Include(d => d.Device).ThenInclude(r => r.Room)
                 .ToListAsync();
         }
 
@@ -48,6 +49,7 @@ namespace FacilityFeedback.Service.Services
         public async Task<Problem?> GetById(int id)
         {
             var result = await _ProblemRepository.GetAsync(id);
+            
             if (result == null)
                 throw new Exception("Not found");
             return result;
