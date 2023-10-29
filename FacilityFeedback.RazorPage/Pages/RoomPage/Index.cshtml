@@ -71,7 +71,7 @@
     
 }
 <nav>
-    @Html.PagedListPager(Model.RoomPaging, page => Url.Action("index", new { pageIndex1 = page }), new PagedListRenderOptions()
+    @Html.PagedListPager(Model.RoomPaging, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
     {
     ActiveLiElementClass = "active",
     PageClasses = new[]{ "page-link"},

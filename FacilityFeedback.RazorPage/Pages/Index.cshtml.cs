@@ -2,11 +2,10 @@
 using FacilityFeedback.Service.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Web.Mvc;
 
 namespace FacilityFeedback.RazorPage.Pages
 {
-    public class IndexModel : Microsoft.AspNetCore.Mvc.ControllerBase
+    public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
 
