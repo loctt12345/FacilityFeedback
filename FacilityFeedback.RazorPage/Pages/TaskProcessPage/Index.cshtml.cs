@@ -23,13 +23,15 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
         }
 
         public IPagedList<TaskProcess>? TaskProcessPaging { get; set; }
+        public List<TaskProcess> TaskProcessWithoutPaging { get; set; }
 
         public async Task OnGetAsync(int pageIndex)
         {
             var pageSize = Int32.Parse(_config["BaseConfig:PageSize"] ?? "10");
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var TaskProcess = await _service.GetAllNoPaging();
-            TaskProcessPaging = await TaskProcess.ToPagedListAsync(pageIndex, pageSize);
+            TaskProcessWithoutPaging = TaskProcess;
+            //TaskProcessPaging = await TaskProcess.ToPagedListAsync(pageIndex, pageSize);
 
         }
     }

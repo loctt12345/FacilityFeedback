@@ -24,13 +24,13 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
         }
 
         public IPagedList<Room>? RoomPaging { get; set; }
-
-        public async Task OnGetAsync(int pageIndex)
+        public int pageIndex { get; set; }
+        public async Task OnGetAsync(int pageIndex1)
         {
             var pageSize = Int32.Parse(_config["BaseConfig:PageSize"] ?? "10");
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var Room = await _service.GetAllNoPaging();
-            RoomPaging = await Room.ToPagedListAsync(pageIndex, pageSize);
+            RoomPaging = await Room.ToPagedListAsync(pageIndex, 2);
 
 
         }

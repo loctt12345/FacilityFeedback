@@ -68,8 +68,10 @@
         </tbody>
     </table>
 
-    <nav>
-        @Html.PagedListPager(Model.RoomPaging, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
+    
+}
+<nav>
+    @Html.PagedListPager(Model.RoomPaging, page => Url.Action("index", new { pageIndex1 = page }), new PagedListRenderOptions()
     {
     ActiveLiElementClass = "active",
     PageClasses = new[]{ "page-link"},
@@ -81,5 +83,4 @@
     DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
     DisplayLinkToNextPage = PagedListDisplayMode.Always
     })
-    </nav>
-}
+</nav>
