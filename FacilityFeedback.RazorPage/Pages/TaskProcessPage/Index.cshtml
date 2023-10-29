@@ -15,16 +15,20 @@
 </p>
 
 <div id="WaitingState">
-    @await Component.InvokeAsync("TaskProcessState", new {state = "Waiting", pageIndex = 4})
+    @await Component.InvokeAsync("TaskProcessState", new {state = "Waiting", pageIndex = 1})
 </div>
 
 <div id="IncomingState">
+    @await Component.InvokeAsync("TaskProcessState", new {state = "Incoming", pageIndex = 1})
+
 </div>
 
 <div id="ProcessingState">
+    @await Component.InvokeAsync("TaskProcessState", new {state = "Processing", pageIndex = 1})
 </div>
 
 <div id="EndingState">
+    @await Component.InvokeAsync("TaskProcessState", new {state = "Ending", pageIndex = 1})
 </div>
 
 @section Scripts {

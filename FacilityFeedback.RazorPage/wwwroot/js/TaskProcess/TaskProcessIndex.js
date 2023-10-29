@@ -1,17 +1,22 @@
-﻿$('#WaitingState').on('click', 'a', function (e) {
-    e.preventDefault();
-    var aa = $(this).attr("href");
-    loadTaskProcess(aa.replace("action", "handler"));
+﻿
+var listState = ["#WaitingState", "#IncomingState", "ProcessingState", "EndingState"]
+listState.forEach((element) => {
+    $(element).on('click', '.pagination-container a', function (e) {
+        e.preventDefault();
+        var hrefState = $(this).attr("href");
+        loadTaskProcess(hrefState.replace("action", "handler"), element);
 
+    });
 });
-    var loadTaskProcess = function (aa) {
-        var _url = aa;
+
+var loadTaskProcess = function (hrefState, state) {
+    var _url = hrefState;
         $.ajax({
             type: "GET",
             url: _url,
             success: function (response) {
-                $("#WaitingState").empty();
-                $("#WaitingState").append(response);
+                $(state).empty();
+                $(state).append(response);
             }
 
         })

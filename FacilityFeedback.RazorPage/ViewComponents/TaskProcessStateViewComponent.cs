@@ -21,6 +21,7 @@ namespace FacilityFeedback.RazorPage.ViewComponents
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var TaskProcess = await _service.GetAllNoPaging();
             var TaskProcessPaging = await TaskProcess.Where(tp => tp.Process.ToString() == state).ToPagedListAsync(pageIndex, 2);
+            ViewBag.state = state;
             return View(TaskProcessPaging);
         }
 

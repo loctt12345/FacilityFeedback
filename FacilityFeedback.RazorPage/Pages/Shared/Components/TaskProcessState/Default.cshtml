@@ -5,7 +5,7 @@
 
 @model IPagedList<TaskProcess>?;
 @{
-    var k = "/TaskProcessPage?handler=TaskProcessState&state=Waiting&pageIndex=";
+    string state = (string)ViewBag.state;
 }
 @if (Model != null && Model.Count > 0)
 {
@@ -85,8 +85,8 @@
     </nav> *@
 
 
-    <nav id ="pageWaiting">
-        @Html.PagedListPager(Model, page => Url.Action("TaskProcessState", new {state = "Waiting", pageIndex = page }), new PagedListRenderOptions()
+    <nav id ="page_@state">
+        @Html.PagedListPager(Model, page => Url.Action("TaskProcessState", new {state = @state, pageIndex = page }), new PagedListRenderOptions()
     {
     ActiveLiElementClass = "active",
     PageClasses = new[]{ "page-link"},
