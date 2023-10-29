@@ -21,11 +21,6 @@ $(function () {
         loadDeviceSelectList(roomId);
 
     });
-    
-
-
-
-
 
 
 }); 

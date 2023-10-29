@@ -5,6 +5,7 @@
 
 @model IPagedList<TaskProcess>?;
 @{
+    var k = "/TaskProcessPage?handler=TaskProcessState&state=Waiting&pageIndex=";
 }
 @if (Model != null && Model.Count > 0)
 {
@@ -67,10 +68,25 @@
             }
         </tbody>
     </table>
-    @section Scripts {
+    
+       @*  <nav>
+        @Html.PagedListPager(Model, pag), new PagedListRenderOptions()
+        {
+        ActiveLiElementClass = "active",
+        PageClasses = new[]{ "page-link"},
+        LiElementClasses=new[] { "page-item" },
+        UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+        LinkToNextPageFormat = "Next",
+        LinkToPreviousPageFormat = "Previous",
+        MaximumPageNumbersToDisplay = 5,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always
+        })
+    </nav> *@
 
-    <nav>
-        @Html.PagedListPager(Model, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
+
+    <nav id ="pageWaiting">
+        @Html.PagedListPager(Model, page => Url.Action("TaskProcessState", new {state = "Waiting", pageIndex = page }), new PagedListRenderOptions()
     {
     ActiveLiElementClass = "active",
     PageClasses = new[]{ "page-link"},
@@ -83,6 +99,7 @@
     DisplayLinkToNextPage = PagedListDisplayMode.Always
     })
     </nav>
-
-    }
+}
+@section Scripts{
+    
 }

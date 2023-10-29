@@ -15,8 +15,7 @@
 </p>
 
 <div id="WaitingState">
-  @*   @await Component.InvokeAsync("TaskProcessState") *@
-    @await Component.InvokeAsync("TaskProcessState", new {state = "Waiting"})
+    @await Component.InvokeAsync("TaskProcessState", new {state = "Waiting", pageIndex = 4})
 </div>
 
 <div id="IncomingState">
@@ -29,10 +28,7 @@
 </div>
 
 @section Scripts {
-    <script>
-       
-
-    </script>
+    <script src="../js/TaskProcess/TaskProcessIndex.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

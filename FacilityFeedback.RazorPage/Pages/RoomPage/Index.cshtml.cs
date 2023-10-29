@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
 using X.PagedList;
 using FacilityFeedback.Service.IServices;
+using System.ComponentModel;
 
 namespace FacilityFeedback.RazorPage.Pages.RoomPage
 {
@@ -29,9 +30,7 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
             var pageSize = Int32.Parse(_config["BaseConfig:PageSize"] ?? "10");
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var Room = await _service.GetAllNoPaging();
-            RoomPaging = await Room.ToPagedListAsync(pageIndex, 2);
-
-
+            RoomPaging = await Room.ToPagedListAsync(pageIndex, pageSize);
         }
     }
 }
