@@ -37,12 +37,13 @@ namespace WebApp.Middlewares
                         {
                             // Staff page
                             if (url.Contains("staff"))
+                            {
                                 if (userConvert.Role != "STAFF")
                                 {
                                     httpContext.Response.Redirect("/Error");
                                     return;
                                 }
-                           
+                            }
                             else
                             {
                                 // Admin page

@@ -39,6 +39,11 @@ namespace FacilityFeedback.RazorPage.Pages.Login
                         {
                             return RedirectToPage("/User/Index");
                         }
+                        else 
+                            if (account.Role == "STAFF")
+                            {
+                                return RedirectToPage("/Staff/Index");
+                            }
                 }
             }
             return RedirectToPage("/Error");

@@ -1,5 +1,5 @@
 ﻿
-var listState = ["#WaitingState", "#IncomingState", "ProcessingState", "EndingState"]
+var listState = ["#WaitingState", "#IncomingState", "#ProcessingState", "#FinishingState","#EndingState"]
 listState.forEach((element) => {
     $(element).on('click', '.pagination-container a', function (e) {
         e.preventDefault();
@@ -18,7 +18,6 @@ var loadTaskProcess = function (hrefState, state) {
                 $(state).empty();
                 $(state).append(response);
             }
-
         })
     }
 

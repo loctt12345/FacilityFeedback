@@ -2,10 +2,12 @@
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Web.Common;
-
+@using Newtonsoft.Json;
 @model IPagedList<TaskProcess>?;
 @{
     string state = (string)ViewBag.state;
+    var userString = Context.Session.GetString("ACCOUNT");
+    var userConvert = JsonConvert.DeserializeObject<Account>(userString);
 }
 @if (Model != null && Model.Count > 0)
 {
@@ -52,19 +54,33 @@
                     </td>
 
                     <td>
-                        @if (item.Problem != null)
-                            @Html.DisplayFor(modelItem => item.Problem.Description)
-                        else
-                            @Html.Display("No Description")
+                    @if (item.Problem != null)
+                        @Html.DisplayFor(modelItem => item.Problem.Description)
+                    else
+                        @Html.Display("No Description")
 
-                        </td>
-
+                    </td>
+                    @if (userConvert.Role == "ADMIN")
+                    {
                         <td>
                             <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                             <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                             <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
-                    </tr>
+                    }
+                    @if (userConvert.Role == "STAFF" && item.Process == Data.EnumModels.ProcessStatus.Processing)
+                    {
+                        <td>
+                            <a asp-page="" asp-route-id="@item.Id" asp-route-action="finish" class="btn btn-success">Finish</a>
+                        </td>
+                    }
+                    @if (userConvert.Role == "STAFF" && item.Process == Data.EnumModels.ProcessStatus.Incoming)
+                    {
+                        <td>
+                            <a asp-page="" asp-route-id="@item.Id" asp-route-action="choose" class="btn btn-primary">Choose</a>
+                        </td>
+                    }
+                </tr>
             }
         </tbody>
     </table>
