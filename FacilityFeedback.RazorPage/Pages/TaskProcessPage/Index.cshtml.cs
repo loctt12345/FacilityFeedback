@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
 using FacilityFeedback.Service.IServices;
 using X.PagedList;
+using FacilityFeedback.Data.EnumModels;
 
 namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
 {
@@ -38,6 +39,21 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
         public IActionResult OnGetTaskProcessState(string state, int pageIndex)
         {
             return ViewComponent("TaskProcessState", new { state, pageIndex });
+        }
+        public async Task<IActionResult> OnPostAsyncUpdateProcess(int process, int Id)
+        {
+            try
+            {
+                var taskProcess = await _service.GetById(Id);
+                taskProcess.Process = (ProcessStatus)process;
+                _service.Update(taskProcess);
+
+                return new JsonResult("Sucess");
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult("Fail");
+            }
         }
     }
 }

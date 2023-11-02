@@ -35,6 +35,8 @@ builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IProblemService, ProblemService>();  
 builder.Services.AddScoped<IAccountService, AccountService>();
 
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

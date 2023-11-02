@@ -1,4 +1,5 @@
-﻿@using FacilityFeedback.Data.Models;
+﻿@using FacilityFeedback.Data.EnumModels;
+@using FacilityFeedback.Data.Models;
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Web.Common;
@@ -34,6 +35,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <input type="hidden" value="@item.Id" />
                     <td>
                         @Html.DisplayFor(modelItem => item.StartTime)
                     </td>
@@ -48,7 +50,9 @@
 
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Process)
+                        <select asp-for="@item.Process" class="form-select mb-3"
+                                asp-items="Html.GetEnumSelectList<ProcessStatus>()">
+                        </select>
                     </td>
 
                     <td>

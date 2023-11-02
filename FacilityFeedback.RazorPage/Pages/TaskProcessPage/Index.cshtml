@@ -3,7 +3,7 @@
 @using X.PagedList.Web.Common;
 @using FacilityFeedback.Data.ViewModels;
 @model FacilityFeedback.RazorPage.Pages.TaskProcessPage.IndexModel
-
+@Html.AntiForgeryToken();
 @{
     ViewData["Title"] = "Index";
 }
@@ -14,23 +14,34 @@
     <a asp-page="Create">Create New</a>
 </p>
 
-<div id="WaitingState">
-    @await Component.InvokeAsync("TaskProcessState", new {state = "Waiting", pageIndex = 1})
+<div style="min-height: 350px">
+    <h2>Waiting State</h2>
+    <div id="WaitingState">
+        @await Component.InvokeAsync("TaskProcessState", new {state = "Waiting", pageIndex = 1})
+    </div>
 </div>
 
-<div id="IncomingState">
-    @await Component.InvokeAsync("TaskProcessState", new {state = "Incoming", pageIndex = 1})
+<div style="min-height: 350px">
+    <h2>Incoming State</h2>
+    <div id="IncomingState">
+        @await Component.InvokeAsync("TaskProcessState", new {state = "Incoming", pageIndex = 1})
 
+    </div>
 </div>
 
-<div id="ProcessingState">
-    @await Component.InvokeAsync("TaskProcessState", new {state = "Processing", pageIndex = 1})
+<div style="min-height: 350px">
+    <h2>Processing State</h2>
+    <div id="ProcessingState">
+        @await Component.InvokeAsync("TaskProcessState", new {state = "Processing", pageIndex = 1})
+    </div>
 </div>
 
-<div id="EndingState">
-    @await Component.InvokeAsync("TaskProcessState", new {state = "Ending", pageIndex = 1})
+<div style="min-height: 350px">
+    <h2>Ending State</h2>
+    <div id="EndingState">
+        @await Component.InvokeAsync("TaskProcessState", new {state = "Ending", pageIndex = 1})
+    </div>
 </div>
-
 @section Scripts {
     <script src="../js/TaskProcess/TaskProcessIndex.js"></script>
     @{
