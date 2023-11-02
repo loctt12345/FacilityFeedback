@@ -31,6 +31,7 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var Room = await _service.GetAllNoPaging();
             RoomPaging = await Room.ToPagedListAsync(pageIndex, pageSize);
+            HttpContext.Session.SetString("PAGE", "RoomPage");
         }
     }
 }

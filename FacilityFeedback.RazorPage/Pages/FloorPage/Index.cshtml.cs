@@ -31,6 +31,7 @@ namespace FacilityFeedback.RazorPage.Pages.FloorPage
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var Floor = await _service.GetAllNoPaging();
             FloorPaging = await Floor.ToPagedListAsync(pageIndex, 2);
+            HttpContext.Session.SetString("PAGE", "FloorPage");
         }
     }
 }

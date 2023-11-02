@@ -23,6 +23,7 @@ namespace FacilityFeedback.Data.Models
         public string? Description { get; set; }
         public ProcessStatus Process { get; set; } = ProcessStatus.Waiting;
         public int ProblemId { get; set; }
+        public string? StaffEmail {  get; set; }
         [ForeignKey("ProblemId")]
         public virtual Problem? Problem { get; set; }    
     }

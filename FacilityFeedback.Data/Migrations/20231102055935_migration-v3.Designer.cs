@@ -4,6 +4,7 @@ using FacilityFeedback.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FacilityFeedback.Data.Migrations
 {
     [DbContext(typeof(FacilityFeedbackContext))]
-    partial class FacilityFeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20231102055935_migration-v3")]
+    partial class migrationv3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,32 +24,6 @@ namespace FacilityFeedback.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FacilityFeedback.Data.Models.Account", b =>
-                {
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Email");
-
-                    b.ToTable("Account");
-                });
 
             modelBuilder.Entity("FacilityFeedback.Data.Models.Device", b =>
                 {
@@ -243,9 +220,6 @@ namespace FacilityFeedback.Data.Migrations
 
                     b.Property<int>("Process")
                         .HasColumnType("int");
-
-                    b.Property<string>("StaffEmail")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("StartTime")
                         .HasColumnType("datetimeoffset");

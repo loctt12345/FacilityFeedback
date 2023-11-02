@@ -5,6 +5,7 @@ using FacilityFeedback.Service.IServices;
 using FacilityFeedback.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using WebApp.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,14 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<FacilityFeedbackContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 builder.Services.AddScoped<IFloorRepository, FloorRepository>();
 builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();  
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();  
 builder.Services.AddScoped<ITaskProcessRepository, TaskProcessRepository>();  
 builder.Services.AddScoped<IDeviceTypeRepository, DeviceTypeRepository>();  
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();  
-builder.Services.AddScoped<IProblemRepository, ProblemRepository>();  
+builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 builder.Services.AddScoped<IFloorService, FloorService>();  
 builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();  
@@ -28,6 +33,7 @@ builder.Services.AddScoped<ITaskProcessService, TaskProcessService>();
 builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();  
 builder.Services.AddScoped<IDeviceService, DeviceService>();  
 builder.Services.AddScoped<IProblemService, ProblemService>();  
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -52,10 +58,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseAuthMiddleware();
 
 app.MapRazorPages();
 

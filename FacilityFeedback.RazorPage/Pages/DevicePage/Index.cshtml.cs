@@ -31,7 +31,7 @@ namespace FacilityFeedback.RazorPage.Pages.DevicePage
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var Device = await _service.GetAllNoPaging();
             DevicePaging = await Device.ToPagedListAsync(pageIndex, pageSize);
-
+            HttpContext.Session.SetString("PAGE", "DevicePage");
         }
     }
 }

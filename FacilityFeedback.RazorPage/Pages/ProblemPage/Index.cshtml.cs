@@ -30,6 +30,7 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var Problem = await _service.GetAllNoPaging();
             ProblemPaging = await Problem.ToPagedListAsync(pageIndex, pageSize);
+            HttpContext.Session.SetString("PAGE", "ProblemPage");
         }
     }
 }

@@ -32,7 +32,7 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
             var TaskProcess = await _service.GetAllNoPaging();
             TaskProcessWithoutPaging = TaskProcess;*/
             //TaskProcessPaging = await TaskProcess.ToPagedListAsync(pageIndex, pageSize);
-
+            HttpContext.Session.SetString("PAGE", "TaskProcessPage");
         }
 
         public IActionResult OnGetTaskProcessState(string state, int pageIndex)
