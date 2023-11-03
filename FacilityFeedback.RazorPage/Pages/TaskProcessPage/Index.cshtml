@@ -25,7 +25,6 @@
     <h2>Incoming State</h2>
     <div id="IncomingState">
         @await Component.InvokeAsync("TaskProcessState", new {state = "Incoming", pageIndex = 1})
-
     </div>
 </div>
 
@@ -33,6 +32,13 @@
     <h2>Processing State</h2>
     <div id="ProcessingState">
         @await Component.InvokeAsync("TaskProcessState", new {state = "Processing", pageIndex = 1})
+    </div>
+</div>
+
+<div style="min-height: 350px">
+    <h2>Finishing State</h2>
+    <div id="FinishingState">
+        @await Component.InvokeAsync("TaskProcessState", new {state = "Finishing", pageIndex = 1})
     </div>
 </div>
 

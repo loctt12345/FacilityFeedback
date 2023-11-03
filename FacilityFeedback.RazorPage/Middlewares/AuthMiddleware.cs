@@ -15,7 +15,8 @@ namespace WebApp.Middlewares
 
         public async Task Invoke(HttpContext httpContext)
         {
-            var url = httpContext.Request.GetEncodedUrl().ToLower();
+            var urlArr = httpContext.Request.GetEncodedUrl().Split("?");
+            var url = urlArr[0].ToLower();
             if (!url.Contains("login") && !url.Contains("logout") && !url.Contains("error"))
             {
                 var userString = httpContext.Session.GetString("ACCOUNT");
@@ -37,12 +38,13 @@ namespace WebApp.Middlewares
                         {
                             // Staff page
                             if (url.Contains("staff"))
+                            {
                                 if (userConvert.Role != "STAFF")
                                 {
                                     httpContext.Response.Redirect("/Error");
                                     return;
                                 }
-                           
+                            }
                             else
                             {
                                 // Admin page

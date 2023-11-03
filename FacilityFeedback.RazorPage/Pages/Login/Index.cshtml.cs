@@ -18,8 +18,42 @@ namespace FacilityFeedback.RazorPage.Pages.Login
         [BindProperty]
         public Account Account {  get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            var accountString = HttpContext.Session.GetString("ACCOUNT");
+            if (accountString != null)
+            {
+                var account = JsonConvert.DeserializeObject<Account>(accountString);
+                if (account.Role == "ADMIN")
+                {
+                    return RedirectToPage("/Index");
+                }
+                if (account.Role == "USER")
+                {
+                    return RedirectToPage("/User/Index");
+                }
+                if (account.Role == "STAFF")
+                {
+                    return RedirectToPage("/Staff/Index");
+                }
+            }
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsyncRegister()
+        {
+            string email = Account.Email;
+            try
+            {
+                var exsited = await _accountService.GetByEmail(email);
+                return RedirectToPage("/Error");
+            }
+            catch
+            {
+                Account.Role = "USER";
+                await _accountService.Create(Account);
+            }
+            return RedirectToPage("/Login/Index");
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -39,6 +73,11 @@ namespace FacilityFeedback.RazorPage.Pages.Login
                         {
                             return RedirectToPage("/User/Index");
                         }
+                        else 
+                            if (account.Role == "STAFF")
+                            {
+                                return RedirectToPage("/Staff/Index");
+                            }
                 }
             }
             return RedirectToPage("/Error");

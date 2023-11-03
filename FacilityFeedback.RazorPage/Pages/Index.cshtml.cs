@@ -16,6 +16,7 @@ namespace FacilityFeedback.RazorPage.Pages
 
         public async Task OnGet()
         {
+            HttpContext.Session.SetString("PAGE", "");
         }
     }
 }

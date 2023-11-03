@@ -14,7 +14,7 @@ namespace FacilityFeedback.Service.IServices
         public Task<Account?> GetByEmail(string email);
         public Task<Account?> Create(Account request);
         public Task<Account?> Update(Account request);
-        public Task<bool> Delete(int id);
+        public Task<bool> Delete(string email);
         public Task<List<Account>> GetAllNoPaging();
     }
 }

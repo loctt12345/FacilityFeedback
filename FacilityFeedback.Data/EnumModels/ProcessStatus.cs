@@ -11,6 +11,7 @@ namespace FacilityFeedback.Data.EnumModels
         Waiting = 0,
         Incoming = 1,
         Processing = 2,
-        Ending = 3
+        Finishing = 3,
+        Ending = 4
     }
 }

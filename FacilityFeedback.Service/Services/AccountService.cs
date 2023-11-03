@@ -35,9 +35,9 @@ namespace FacilityFeedback.Service.Services
             return AccountCreate;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(string email)
         {
-            var entity = await _AccountRepository.GetAsync(id);
+            var entity = await _AccountRepository.GetAsync(email);
             if (entity == null)
                 throw new Exception("Not found");
             await _AccountRepository.DeleteAsync(entity);

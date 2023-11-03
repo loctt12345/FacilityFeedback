@@ -3,10 +3,14 @@
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Web.Common;
-
+@using Newtonsoft.Json;
 @model IPagedList<TaskProcess>?;
 @{
     string state = (string)ViewBag.state;
+    var userString = Context.Session.GetString("ACCOUNT");
+    var userConvert = JsonConvert.DeserializeObject<Account>(userString);
+    var accountSelectList = (SelectList)ViewBag.Account;
+
 }
 @if (Model != null && Model.Count > 0)
 {
@@ -24,6 +28,9 @@
                 </th>
                 <th>
                     @Html.DisplayName("Process")
+                </th>
+                <th>
+                    @Html.DisplayName("Staff")
                 </th>
                 <th>
                     @Html.DisplayName("Problem")
@@ -48,12 +55,39 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
 
+                    @if (userConvert.Role == "ADMIN")
+                    {
+                        <td>
+                            <select asp-for="@item.Process" class="form-select mb-3"
+                                    asp-items="Html.GetEnumSelectList<ProcessStatus>()">
+                            </select>
+                        </td>
+                        @if (accountSelectList != null)
+                        {
+                            <td>
+                                @if (state == "Incoming")
+                                {
+                                    <select asp-for="@item.StaffEmail" class="form-select mb-3" asp-items="accountSelectList">
+                                        <option selected>None</option>
+                                    </select>
 
-                    <td>
-                        <select asp-for="@item.Process" class="form-select mb-3"
-                                asp-items="Html.GetEnumSelectList<ProcessStatus>()">
-                        </select>
-                    </td>
+                                }
+                                else
+                                {
+                                    <select disabled asp-for="@item.StaffEmail" class="form-select mb-3" asp-items="accountSelectList">
+                                        <option selected>None</option>
+                                    </select>
+                                }
+                            </td>
+                        }
+
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Process)
+                        </td>
+                    }
 
                     <td>
                         @if (item.Problem != null)
@@ -61,19 +95,34 @@
                         else
                             @Html.Display("No Description")
 
-                        </td>
 
+                        </td>
+                        @if (userConvert.Role == "ADMIN")
+                    {
                         <td>
                             <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                             <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                             <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
-                    </tr>
+                    }
+                    @if (userConvert.Role == "STAFF" && item.Process == Data.EnumModels.ProcessStatus.Processing)
+                    {
+                        <td>
+                            <a asp-page="" asp-route-id="@item.Id" asp-route-action="finish" class="btn btn-success">Finish</a>
+                        </td>
+                    }
+                    @if (userConvert.Role == "STAFF" && item.Process == Data.EnumModels.ProcessStatus.Incoming)
+                    {
+                        <td>
+                            <a asp-page="" asp-route-id="@item.Id" asp-route-action="choose" class="btn btn-primary">Choose</a>
+                        </td>
+                    }
+                </tr>
             }
         </tbody>
     </table>
-    
-       @*  <nav>
+
+    @*  <nav>
         @Html.PagedListPager(Model, pag), new PagedListRenderOptions()
         {
         ActiveLiElementClass = "active",
@@ -89,7 +138,7 @@
     </nav> *@
 
 
-    <nav id ="page_@state">
+    <nav id="page_@state">
         @Html.PagedListPager(Model, page => Url.Action("TaskProcessState", new {state = @state, pageIndex = page }), new PagedListRenderOptions()
     {
     ActiveLiElementClass = "active",
@@ -105,5 +154,5 @@
     </nav>
 }
 @section Scripts{
-    
+
 }

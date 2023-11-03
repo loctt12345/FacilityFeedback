@@ -47,6 +47,8 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
             {
                 return Page();
             }
+            if (TaskProcess.Process == Data.EnumModels.ProcessStatus.Waiting || TaskProcess.Process == Data.EnumModels.ProcessStatus.Incoming)
+                TaskProcess.StaffEmail = null;
             var result = await _service.Update(TaskProcess);
             return RedirectToPage("./Index");
         }

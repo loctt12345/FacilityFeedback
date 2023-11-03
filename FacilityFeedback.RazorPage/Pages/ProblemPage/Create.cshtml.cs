@@ -53,7 +53,7 @@ namespace FacilityFeedback.RazorPage.Pages.ProblemPage
             taskProcess.EndTime = DateTime.MaxValue;
             taskProcess.Description = result.Description;
             taskProcess.ProblemId = result.Id;
-            var createTaskProcess = _taskProcessService.Create(taskProcess);
+            var createTaskProcess = await _taskProcessService.Create(taskProcess);
             return RedirectToPage("./Index");
         }
         public async Task<JsonResult> OnGetDevice(int roomId)
