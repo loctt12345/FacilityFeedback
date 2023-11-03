@@ -11,52 +11,81 @@ namespace FacilityFeedback.Repository.Repository
 {
     public class DeviceRepository : IDeviceRepository
     {
+        private readonly FacilityFeedbackContext _context;
+
+        public DeviceRepository(FacilityFeedbackContext context)
+        {
+            _context = context;
+        }
         public Device Create(Device entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Device.Add(entity);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
-        public Task<Device> CreateAsync(Device entity)
+        public async Task<Device> CreateAsync(Device entity)
         {
-            throw new NotImplementedException();
+            var result = await _context.Device.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public bool Delete(Device entity)
+        public async Task<bool> Delete(Device entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Device.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<bool> DeleteAsync(Device entity)
+        public async Task<bool> DeleteAsync(Device entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public IQueryable<Device> Get()
         {
-            throw new NotImplementedException();
+            return _context.Device;
         }
 
         public IQueryable<Device> Get(Expression<Func<Device, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Device.Where(predicate);
         }
 
         public Device Get<TKey>(TKey id)
         {
-            throw new NotImplementedException();
+            var result = _context.Device.Find(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
-        public Task<Device> GetAsync<TKey>(TKey id)
+        public async Task<Device> GetAsync<TKey>(TKey id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Device.FindAsync(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
         public Device Update(Device entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Device.Update(entity);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
-        public Task<Device> UpdateAsync(Device entity)
+        public async Task<Device> UpdateAsync(Device entity)
+        {
+            var result = _context.Device.Update(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        bool IRepositoryBase<Device>.Delete(Device entity)
         {
             throw new NotImplementedException();
         }

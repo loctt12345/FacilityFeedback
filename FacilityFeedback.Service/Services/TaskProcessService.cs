@@ -25,7 +25,7 @@ namespace FacilityFeedback.Service.Services
         }
         public async Task<List<TaskProcess>> GetAllNoPaging()
         {
-            return await _taskProcessRepository.Get().ToListAsync();
+            return await _taskProcessRepository.Get().Include(p => p.Problem).ToListAsync();
         }
 
         public async Task<TaskProcess?> Create(TaskProcess request)

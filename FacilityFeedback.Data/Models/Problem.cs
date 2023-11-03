@@ -13,13 +13,15 @@ namespace FacilityFeedback.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTimeOffset Time { get; set; }
         public string? Description { get; set; }
         public bool Status { get; set; }
         public int DeviceId { get; set; }
 
         [ForeignKey("DeviceId")]
-        public virtual Device Device { get; set; }
+        public virtual Device? Device { get; set; }
         public ICollection<TaskProcess> Tasks { get; set; } = new HashSet<TaskProcess>(); 
 
     }

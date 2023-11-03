@@ -1,0 +1,158 @@
+﻿@using FacilityFeedback.Data.EnumModels;
+@using FacilityFeedback.Data.Models;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@using Newtonsoft.Json;
+@model IPagedList<TaskProcess>?;
+@{
+    string state = (string)ViewBag.state;
+    var userString = Context.Session.GetString("ACCOUNT");
+    var userConvert = JsonConvert.DeserializeObject<Account>(userString);
+    var accountSelectList = (SelectList)ViewBag.Account;
+
+}
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("StartTime")
+                </th>
+                <th>
+                    @Html.DisplayName("EndTime")
+                </th>
+                <th>
+                    @Html.DisplayName("Description")
+                </th>
+                <th>
+                    @Html.DisplayName("Process")
+                </th>
+                <th>
+                    @Html.DisplayName("Staff")
+                </th>
+                <th>
+                    @Html.DisplayName("Problem")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <input type="hidden" value="@item.Id" />
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    @if (userConvert.Role == "ADMIN")
+                    {
+                        <td>
+                            <select asp-for="@item.Process" class="form-select mb-3"
+                                    asp-items="Html.GetEnumSelectList<ProcessStatus>()">
+                            </select>
+                        </td>
+                        @if (accountSelectList != null)
+                        {
+                            <td>
+                                @if (state == "Incoming")
+                                {
+                                    <select asp-for="@item.StaffEmail" class="form-select mb-3" asp-items="accountSelectList">
+                                        <option selected>None</option>
+                                    </select>
+
+                                }
+                                else
+                                {
+                                    <select disabled asp-for="@item.StaffEmail" class="form-select mb-3" asp-items="accountSelectList">
+                                        <option selected>None</option>
+                                    </select>
+                                }
+                            </td>
+                        }
+
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Process)
+                        </td>
+                    }
+
+                    <td>
+                        @if (item.Problem != null)
+                            @Html.DisplayFor(modelItem => item.Problem.Description)
+                        else
+                            @Html.Display("No Description")
+
+
+                        </td>
+                        @if (userConvert.Role == "ADMIN")
+                    {
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    }
+                    @if (userConvert.Role == "STAFF" && item.Process == Data.EnumModels.ProcessStatus.Processing)
+                    {
+                        <td>
+                            <a asp-page="" asp-route-id="@item.Id" asp-route-action="finish" class="btn btn-success">Finish</a>
+                        </td>
+                    }
+                    @if (userConvert.Role == "STAFF" && item.Process == Data.EnumModels.ProcessStatus.Incoming)
+                    {
+                        <td>
+                            <a asp-page="" asp-route-id="@item.Id" asp-route-action="choose" class="btn btn-primary">Choose</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @*  <nav>
+        @Html.PagedListPager(Model, pag), new PagedListRenderOptions()
+        {
+        ActiveLiElementClass = "active",
+        PageClasses = new[]{ "page-link"},
+        LiElementClasses=new[] { "page-item" },
+        UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+        LinkToNextPageFormat = "Next",
+        LinkToPreviousPageFormat = "Previous",
+        MaximumPageNumbersToDisplay = 5,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always
+        })
+    </nav> *@
+
+
+    <nav id="page_@state">
+        @Html.PagedListPager(Model, page => Url.Action("TaskProcessState", new {state = @state, pageIndex = page }), new PagedListRenderOptions()
+    {
+    ActiveLiElementClass = "active",
+    PageClasses = new[]{ "page-link"},
+    LiElementClasses=new[] { "page-item" },
+    UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+    LinkToNextPageFormat = "Next",
+    LinkToPreviousPageFormat = "Previous",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always
+    })
+    </nav>
+}
+@section Scripts{
+
+}

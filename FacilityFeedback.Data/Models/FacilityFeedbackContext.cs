@@ -26,6 +26,7 @@ namespace FacilityFeedback.Data.Models
         public DbSet<RoomType> RoomType { get; set; } = null!;
         public DbSet<TaskProcess> TaskProcess { get; set; } = null!;
         public DbSet<ResourceMaterial> ResourceMaterial { get; set; } = null!;
+        public DbSet<Account> Account { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

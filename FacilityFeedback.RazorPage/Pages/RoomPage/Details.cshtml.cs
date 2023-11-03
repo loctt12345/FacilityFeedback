@@ -27,9 +27,6 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
 
         public async Task<IActionResult> OnGet(int id)
         {
-            var floor = await _serviceFloor.GetAllNoPaging();
-            ViewData["FloorId"] = new SelectList(await _serviceFloor.GetAllNoPaging(), "Id", "Code");
-            ViewData["RoomTypeId"] = new SelectList(await _serviceRoomType.GetAllNoPaging(), "Id", "Description");
             var room = await _service.GetById(id);
             if (room == null)
             {
@@ -37,7 +34,10 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
             }
             else
             {
+                room.Floor = await _serviceFloor.GetById(room.FloorId);
+                room.RoomType = await _serviceRoomType.GetById(room.RoomTypeId);
                 Room = room;
+                
             }
             return Page();
         }

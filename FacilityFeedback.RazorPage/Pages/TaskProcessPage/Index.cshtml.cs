@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
 using FacilityFeedback.Service.IServices;
 using X.PagedList;
+using FacilityFeedback.Data.EnumModels;
+using System.Diagnostics;
 
 namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
 {
@@ -23,14 +25,54 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
         }
 
         public IPagedList<TaskProcess>? TaskProcessPaging { get; set; }
+        public List<TaskProcess> TaskProcessWithoutPaging { get; set; }
 
         public async Task OnGetAsync(int pageIndex)
         {
-            var pageSize = Int32.Parse(_config["BaseConfig:PageSize"] ?? "10");
+            /*var pageSize = Int32.Parse(_config["BaseConfig:PageSize"] ?? "10");
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var TaskProcess = await _service.GetAllNoPaging();
-            TaskProcessPaging = await TaskProcess.ToPagedListAsync(pageIndex, pageSize);
+            TaskProcessWithoutPaging = TaskProcess;*/
+            //TaskProcessPaging = await TaskProcess.ToPagedListAsync(pageIndex, pageSize);
+            HttpContext.Session.SetString("PAGE", "TaskProcessPage");
+        }
 
+        public IActionResult OnGetTaskProcessState(string state, int pageIndex)
+        {
+            return ViewComponent("TaskProcessState", new { state, pageIndex });
+        }
+
+        public async Task<IActionResult> OnPostAsyncUpdateEmail(string email, int Id)
+        {
+            try
+            {
+                var taskProcess = await _service.GetById(Id);
+                taskProcess.Process = ProcessStatus.Processing;
+                taskProcess.StaffEmail = email;
+                await _service.Update(taskProcess);
+                return new JsonResult("Sucess");
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult("Fail");
+            }
+        }
+
+        public async Task<IActionResult> OnPostAsyncUpdateProcess(int process, int Id)
+        {
+            try
+            {
+                var taskProcess = await _service.GetById(Id);
+                taskProcess.Process = (ProcessStatus)process;
+                if (taskProcess.Process == ProcessStatus.Waiting || taskProcess.Process == ProcessStatus.Incoming) 
+                    taskProcess.StaffEmail = null;
+                await _service.Update(taskProcess);
+                return new JsonResult("Sucess");
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult("Fail");
+            }
         }
     }
 }

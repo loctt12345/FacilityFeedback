@@ -28,14 +28,22 @@
                 <div class="row mb-3">
                     @Html.LabelFor(m => m.Room.Floor, new {@class = "col-sm-2 col-form-label"})
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.Room.Floor.Code, new {@class = "form-control", @disabled = "true"})
+                        @if (Model.Room.Floor != null)
+                            @Html.TextBoxFor(m => m.Room.Floor.Code, new {@class = "form-control", @disabled = "true"})
+                        else
+                            @Html.Display("", new {@class = "form-control", @disabled = "true"})
+
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     @Html.LabelFor(m => m.Room.RoomType, new {@class = "col-sm-2 col-form-label"})
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.Room.RoomType.RoomCode, new {@class = "form-control", @disabled = "true"})
+                        @if (Model.Room.RoomType != null)
+                            @Html.TextBoxFor(m => m.Room.RoomType.Description, new {@class = "form-control", @disabled = "true"})
+                        else
+                            @Html.Display("", new {@class = "form-control", @disabled = "true"})
+
                     </div>
                 </div>
 

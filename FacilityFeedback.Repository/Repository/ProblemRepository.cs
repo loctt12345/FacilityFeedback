@@ -11,54 +11,78 @@ namespace FacilityFeedback.Repository.Repository
 {
     public class ProblemRepository : IProblemRepository
     {
+        private readonly FacilityFeedbackContext _context;
+
+        public ProblemRepository(FacilityFeedbackContext context)
+        {
+            _context = context;
+        }
         public Problem Create(Problem entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Problem.Add(entity);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
-        public Task<Problem> CreateAsync(Problem entity)
+        public async Task<Problem> CreateAsync(Problem entity)
         {
-            throw new NotImplementedException();
+            var result = await _context.Problem.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Problem Delete(Problem entity)
+        public async Task<bool> Delete(Problem entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Problem.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<bool> DeleteAsync(Problem entity)
+        public async Task<bool> DeleteAsync(Problem entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public IQueryable<Problem> Get()
         {
-            throw new NotImplementedException();
+            return _context.Problem;
         }
 
         public IQueryable<Problem> Get(Expression<Func<Problem, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Problem.Where(predicate);
         }
 
         public Problem Get<TKey>(TKey id)
         {
-            throw new NotImplementedException();
+            var result = _context.Problem.Find(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
-        public Task<Problem> GetAsync<TKey>(TKey id)
+        public async Task<Problem> GetAsync<TKey>(TKey id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Problem.FindAsync(id);
+            if (result == null)
+                throw new Exception("Not found");
+            return result;
         }
 
         public Problem Update(Problem entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Problem.Update(entity);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
-        public Task<Problem> UpdateAsync(Problem entity)
+        public async Task<Problem> UpdateAsync(Problem entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Problem.Update(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
         bool IRepositoryBase<Problem>.Delete(Problem entity)

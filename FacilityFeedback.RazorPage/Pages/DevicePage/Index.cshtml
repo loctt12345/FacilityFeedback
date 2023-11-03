@@ -1,0 +1,100 @@
+﻿@page
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model FacilityFeedback.RazorPage.Pages.DevicePage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Device management</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+@if (Model.DevicePaging != null && Model.DevicePaging.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("DeviceCode")
+                </th>
+                <th>
+                    @Html.DisplayName("Manufacture")
+                </th>
+                <th>
+                    @Html.DisplayName("Description")
+                </th>
+                <th>
+                    @Html.DisplayName("Device Type")
+                </th>
+                <th>
+                    @Html.DisplayName("Room")
+                </th>
+                <th>
+                    @Html.DisplayName("Expired Day")
+                </th>
+                <th>
+                    @Html.DisplayName("Status")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DevicePaging)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeviceCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Manufacture)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @if (item.DeviceType != null)
+                            @Html.DisplayFor(modelItem => item.DeviceType.Name)
+                        else
+                            @Html.Display("")
+                    </td>
+                    <td>
+                        @if (item.Room != null)
+                            @Html.DisplayFor(modelItem => item.Room.RoomCode)
+                        else
+                            @Html.Display("")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiredDay)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        @Html.PagedListPager(Model.DevicePaging, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
+    {
+    ActiveLiElementClass = "active",
+    PageClasses = new[]{ "page-link"},
+    LiElementClasses=new[] { "page-item" },
+    UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+    LinkToNextPageFormat = "Next",
+    LinkToPreviousPageFormat = "Previous",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always
+    })
+    </nav>
+}

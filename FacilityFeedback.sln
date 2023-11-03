@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacilityFeedback.RazorPage", "FacilityFeedback.RazorPage\FacilityFeedback.RazorPage.csproj", "{57129B0F-E7E3-4A4A-84B0-95A67393469D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacilityFeedback.RazorPage", "FacilityFeedback.RazorPage\FacilityFeedback.RazorPage.csproj", "{57129B0F-E7E3-4A4A-84B0-95A67393469D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacilityFeedback.Data", "FacilityFeedback.Data\FacilityFeedback.Data.csproj", "{D1BE16C8-952B-4B36-B946-0C93A02A233B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacilityFeedback.Data", "FacilityFeedback.Data\FacilityFeedback.Data.csproj", "{D1BE16C8-952B-4B36-B946-0C93A02A233B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacilityFeedback.Repository", "FacilityFeedback.Repository\FacilityFeedback.Repository.csproj", "{0B79DC59-F43F-41EE-ABA5-5128673F0D0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacilityFeedback.Repository", "FacilityFeedback.Repository\FacilityFeedback.Repository.csproj", "{0B79DC59-F43F-41EE-ABA5-5128673F0D0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacilityFeedback.Service", "FacilityFeedback.Service\FacilityFeedback.Service.csproj", "{3D658788-4F92-4B0C-B397-EB7CBC69F21A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacilityFeedback.Service", "FacilityFeedback.Service\FacilityFeedback.Service.csproj", "{3D658788-4F92-4B0C-B397-EB7CBC69F21A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

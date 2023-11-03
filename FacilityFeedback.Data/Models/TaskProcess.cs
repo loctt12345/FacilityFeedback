@@ -14,11 +14,16 @@ namespace FacilityFeedback.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTimeOffset StartTime { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTimeOffset EndTime { get; set; }
         public string? Description { get; set; }
         public ProcessStatus Process { get; set; } = ProcessStatus.Waiting;
         public int ProblemId { get; set; }
+        public string? StaffEmail {  get; set; }
         [ForeignKey("ProblemId")]
         public virtual Problem? Problem { get; set; }    
     }

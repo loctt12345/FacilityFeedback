@@ -49,6 +49,7 @@ namespace FacilityFeedback.Service.Services
         public async Task<Room?> GetById(int id)
         {
             var result = await _roomRepository.GetAsync(id);
+
             if (result == null)
                 throw new Exception("Not found");
             return result;

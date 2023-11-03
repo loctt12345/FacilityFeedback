@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
 using FacilityFeedback.Service.IServices;
+using FacilityFeedback.Service.Services;
 
 namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
 {
     public class EditModel : PageModel
     {
         private readonly ITaskProcessService _service;
+        private readonly IProblemService _problemService;
 
-        public EditModel(ITaskProcessService service)
+        public EditModel(ITaskProcessService service, IProblemService problemService)
         {
             _service = service;
+            _problemService = problemService;
         }
 
         [BindProperty]
@@ -26,6 +29,8 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var taskProcess = await _service.GetById(id);
+            ViewData["ProblemId"] = new SelectList(await _problemService.GetAllNoPaging(), "Id", "Description");
+
             if (taskProcess == null)
             {
                 return NotFound();
@@ -42,6 +47,8 @@ namespace FacilityFeedback.RazorPage.Pages.TaskProcessPage
             {
                 return Page();
             }
+            if (TaskProcess.Process == Data.EnumModels.ProcessStatus.Waiting || TaskProcess.Process == Data.EnumModels.ProcessStatus.Incoming)
+                TaskProcess.StaffEmail = null;
             var result = await _service.Update(TaskProcess);
             return RedirectToPage("./Index");
         }

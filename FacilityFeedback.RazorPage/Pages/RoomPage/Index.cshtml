@@ -7,7 +7,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Room management</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -59,7 +59,7 @@
 
                     </td>
                     <td>
-                        <a asp-page="./Edit" asp-route-id="item.Id">Edit</a> |
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                         <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
@@ -68,8 +68,10 @@
         </tbody>
     </table>
 
-    <nav>
-        @Html.PagedListPager(Model.RoomPaging, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
+    
+}
+<nav>
+    @Html.PagedListPager(Model.RoomPaging, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
     {
     ActiveLiElementClass = "active",
     PageClasses = new[]{ "page-link"},
@@ -81,5 +83,4 @@
     DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
     DisplayLinkToNextPage = PagedListDisplayMode.Always
     })
-    </nav>
-}
+</nav>

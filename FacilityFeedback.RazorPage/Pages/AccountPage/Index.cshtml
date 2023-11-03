@@ -1,0 +1,69 @@
+﻿@page
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model FacilityFeedback.RazorPage.Pages.AccountPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Device management</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+@if (Model.AccountPaging != null && Model.AccountPaging.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Email")
+                </th>
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Phone")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AccountPaging)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-email="@item.Email">Edit</a> |
+                        <a asp-page="./Details" asp-route-email="@item.Email">Details</a> |
+                        <a asp-page="./Delete" asp-route-email="@item.Email">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        @Html.PagedListPager(Model.AccountPaging, page => Url.Action("index", new { pageIndex = page }), new PagedListRenderOptions()
+    {
+    ActiveLiElementClass = "active",
+    PageClasses = new[]{ "page-link"},
+    LiElementClasses=new[] { "page-item" },
+    UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+    LinkToNextPageFormat = "Next",
+    LinkToPreviousPageFormat = "Previous",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always
+    })
+    </nav>
+}

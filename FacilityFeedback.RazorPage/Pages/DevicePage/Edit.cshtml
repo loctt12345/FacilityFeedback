@@ -1,0 +1,80 @@
+﻿@page
+@model FacilityFeedback.RazorPage.Pages.DevicePage.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    var deviceTypeSelectList = (SelectList)ViewBag.DeviceTypeId;
+    var roomSelectList = (SelectList)ViewBag.RoomId;
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-7">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Create Device</h6>
+                <form method="post">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Device.Id, new {@class = "form-control", @hidden = "true"})
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.DeviceCode, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Device.DeviceCode, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.Manufacture, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Device.Manufacture, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.Description, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Device.Description, new {@class = "form-control"})
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.ExpiredDay, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.EditorFor(m => m.Device.ExpiredDay, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Device.Status, new {@class = "pt-0 col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.Device.Status, new {@class = "form-check-input"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(m => m.Device.DeviceType, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Device.DeviceTypeId, deviceTypeSelectList, new {@class="form-select mb-3"})
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(m => m.Device.Room, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Device.RoomId, roomSelectList, new {@class="form-select mb-3"})
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+
+                <div style="margin-top: 20px;">
+                    <a asp-page="Index">Back to List</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

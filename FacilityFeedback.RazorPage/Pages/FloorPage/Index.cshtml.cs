@@ -30,7 +30,8 @@ namespace FacilityFeedback.RazorPage.Pages.FloorPage
             var pageSize = Int32.Parse(_config["BaseConfig:PageSize"] ?? "10");
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             var Floor = await _service.GetAllNoPaging();
-            FloorPaging = await Floor.ToPagedListAsync(pageIndex, pageSize);
+            FloorPaging = await Floor.ToPagedListAsync(pageIndex, 2);
+            HttpContext.Session.SetString("PAGE", "FloorPage");
         }
     }
 }

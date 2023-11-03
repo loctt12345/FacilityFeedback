@@ -11,7 +11,7 @@
     <div class="row g-4">
         <div class="col-sm-12 col-xl-7">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Create Room Type</h6>
+                <h6 class="mb-4">Edit Room Type</h6>
                 <form method="post">
                     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                     @Html.TextBoxFor(m => m.Room.Id, new {@hidden = "true"})
@@ -33,15 +33,19 @@
                     </div>
                     <div class="row">
                         @Html.LabelFor(m => m.Room.Floor, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Room.FloorId, floorSelectList, new {@class="form-select mb-3"})
+                        </div>
                     </div>
-                    @Html.DropDownListFor(m => m.Room.FloorId, floorSelectList, new {@class="form-select mb-3"})
 
                     <div class="row">
                         @Html.LabelFor(m => m.Room.RoomType, new {@class = "col-sm-2 col-form-label"})
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Room.RoomTypeId, roomTypeSelectList, new {@class="form-select mb-3"})
+                        </div>
                     </div>
-                    @Html.DropDownListFor(m => m.Room.RoomTypeId, roomTypeSelectList, new {@class="form-select mb-3"})
 
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
 
                 <div style="margin-top: 20px;">

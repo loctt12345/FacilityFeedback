@@ -22,6 +22,32 @@ namespace FacilityFeedback.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FacilityFeedback.Data.Models.Account", b =>
+                {
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Email");
+
+                    b.ToTable("Account");
+                });
+
             modelBuilder.Entity("FacilityFeedback.Data.Models.Device", b =>
                 {
                     b.Property<int>("Id")
@@ -217,6 +243,9 @@ namespace FacilityFeedback.Data.Migrations
 
                     b.Property<int>("Process")
                         .HasColumnType("int");
+
+                    b.Property<string>("StaffEmail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("StartTime")
                         .HasColumnType("datetimeoffset");
