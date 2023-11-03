@@ -30,7 +30,9 @@
                                     <input asp-for="@Model.Account.Password" placeholder="Password" class="myInput" type="text" type="password" />
                                 </span>
                             </div>
+                            <span class="text-danger" style="color:red;">@ViewData["ErrorMessage"]</span>
                         </div>
+      
                         <div class="forget-password">
                             <a href="">FORGOT PASSWORD</a>
                         </div>

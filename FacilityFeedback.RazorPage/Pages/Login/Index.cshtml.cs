@@ -60,27 +60,35 @@ namespace FacilityFeedback.RazorPage.Pages.Login
         {
             string email = Account.Email;
             string password = Account.Password;
-            var account = await _accountService.GetByEmail(email);
-            if (account != null)
+            try
             {
-                if (account.Password == password)
+                var account = await _accountService.GetByEmail(email);
+                if (account != null)
                 {
-                    HttpContext.Session.SetString("ACCOUNT", JsonConvert.SerializeObject(account));
-                    if (account.Role == "ADMIN")
-                        return RedirectToPage("/Index");
-                    else 
-                        if (account.Role == "USER")
+                    if (account.Password == password)
+                    {
+                        HttpContext.Session.SetString("ACCOUNT", JsonConvert.SerializeObject(account));
+                        if (account.Role == "ADMIN")
+                            return RedirectToPage("/Index");
+                        else
+                            if (account.Role == "USER")
                         {
                             return RedirectToPage("/User/Index");
                         }
-                        else 
-                            if (account.Role == "STAFF")
-                            {
-                                return RedirectToPage("/Staff/Index");
-                            }
+                        else
+                                if (account.Role == "STAFF")
+                        {
+                            return RedirectToPage("/Staff/Index");
+                        }
+                    }
                 }
             }
-            return RedirectToPage("/Error");
+            catch
+            {
+                ViewData["ErrorMessage"] = "Invalid Email or Password";
+                return Page();
+            }
+            return Page();
         }
     }
 }
