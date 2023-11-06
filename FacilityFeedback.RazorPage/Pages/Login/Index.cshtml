@@ -7,7 +7,7 @@
     <head>
     <link href="../css/loginStyle.css" rel="stylesheet">
     </head>
-    <body>
+    <body onload="checkSignUpError()">
 
     <section>
         <div class="main-form-container">
@@ -30,7 +30,7 @@
                                     <input asp-for="@Model.Account.Password" placeholder="Password" class="myInput" type="text" type="password" />
                                 </span>
                             </div>
-                            <span class="text-danger" style="color:red;">@ViewData["ErrorMessage"]</span>
+                            <span class="text-danger" id="loginError" style="color:red;">@ViewData["ErrorLoginMessage"]</span>
                         </div>
       
                         <div class="forget-password">
@@ -52,6 +52,7 @@
                                     <input asp-for="Account.Name" placeholder="Full Name" class="myInput" type="text" />
                                 </span>
                             </div>
+                            <span asp-validation-for="Account.Name" style="color:red;" class="error-signup"></span>
                         </div>
                         <div class="input-group">
                             <div class="box">
@@ -59,6 +60,7 @@
                                     <input asp-for="Account.Email" placeholder="Email" class="myInput" type="text" />
                                 </span>
                             </div>
+                            <span asp-validation-for="Account.Email" style="color:red;" class="error-signup"></span>
                         </div>
                         <div class="input-group">
                             <div class="box">
@@ -66,6 +68,7 @@
                                     <input asp-for="Account.PhoneNumber" placeholder=" Mobile No." class="myInput" type="number" />
                                 </span>
                             </div>
+                            <span asp-validation-for="Account.PhoneNumber" style="color:red;" class="error-signup"></span>
                         </div>
                         <div style="margin-bottom: 0px;" class="input-group">
                             <div class="box">
@@ -73,6 +76,7 @@
                                     <input asp-for="Account.Password" placeholder="Password" class="myInput" type="password" />
                                 </span>
                             </div>
+                            <span asp-validation-for="Account.Password" style="color:red;" class="error-signup"></span>
                         </div>
                         <div class="action-button">
                             <button>Sign Up</button>
@@ -93,5 +97,6 @@
     </section>
 
     <script src="../js/Login/login.js"></script>
+    <script src="../js/Login/loginreturn.js"></script>
     </body>
 </html>

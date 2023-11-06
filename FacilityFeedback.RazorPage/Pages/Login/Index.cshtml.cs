@@ -42,6 +42,10 @@ namespace FacilityFeedback.RazorPage.Pages.Login
 
         public async Task<IActionResult> OnPostAsyncRegister()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             string email = Account.Email;
             try
             {
@@ -81,11 +85,13 @@ namespace FacilityFeedback.RazorPage.Pages.Login
                             return RedirectToPage("/Staff/Index");
                         }
                     }
+                    ViewData["ErrorLoginMessage"] = "Invalid Email or Password";
+                    return Page();
                 }
             }
             catch
             {
-                ViewData["ErrorMessage"] = "Invalid Email or Password";
+                ViewData["ErrorLoginMessage"] = "Invalid Email or Password";
                 return Page();
             }
             return Page();
