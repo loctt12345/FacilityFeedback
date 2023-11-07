@@ -13,10 +13,12 @@ namespace FacilityFeedback.RazorPage.Pages.FloorPage
     public class DeleteModel : PageModel
     {
         private readonly IFloorService _service;
+        private readonly IRoomService _roomService;
 
-        public DeleteModel(IFloorService service)
+        public DeleteModel(IFloorService service, IRoomService roomService)
         {
             _service = service;
+            _roomService = roomService;
         }
 
         [BindProperty]
@@ -35,7 +37,22 @@ namespace FacilityFeedback.RazorPage.Pages.FloorPage
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            await _service.Delete(id);
+            var rooms = await _roomService.GetAllNoPaging();
+            var isExsitedRoom = false;
+            if (rooms != null)
+            {
+                isExsitedRoom = rooms.Where(x => x.FloorId == id).Any();
+            }
+            if (!isExsitedRoom)
+            {
+                await _service.Delete(id);
+            }
+            else
+            {
+                var updateFloor = rooms?.Where(x => x.FloorId == id).Select(x => x.Floor).FirstOrDefault();
+                updateFloor.Status = false;
+                await _service.Update(updateFloor);
+            }
             return RedirectToPage("./Index");
         }
     }

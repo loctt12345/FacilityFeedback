@@ -15,12 +15,14 @@ namespace FacilityFeedback.RazorPage.Pages.DevicePage
         private readonly IDeviceService _service;
         private readonly IDeviceTypeService _deviceTypeService;
         private readonly IRoomService _roomService;
+        private readonly IProblemService _problemService;
 
-        public DeleteModel(IDeviceService service, IDeviceTypeService deviceTypeService, IRoomService roomService)
+        public DeleteModel(IDeviceService service, IDeviceTypeService deviceTypeService, IRoomService roomService,IProblemService problemService)
         {
             _service = service;
             _deviceTypeService = deviceTypeService;
             _roomService = roomService;
+            _problemService = problemService;
         }
 
         public async Task<IActionResult> OnGet(int id)
@@ -46,7 +48,22 @@ namespace FacilityFeedback.RazorPage.Pages.DevicePage
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            await _service.Delete(id);
+            var problems = await _problemService.GetAllNoPaging();
+            var isExsitedProblem = false;
+            if(problems != null)
+            {
+                isExsitedProblem =  problems.Where(x=>x.DeviceId == id).Any();
+            }
+            if (!isExsitedProblem)
+            {
+                await _service.Delete(id);
+            }
+            else
+            {
+                var updateDevice = problems?.Where(x => x.DeviceId == id).Select(x => x.Device).FirstOrDefault();
+                updateDevice.Status = false;
+                await _service.Update(updateDevice);
+            }
 
             return RedirectToPage("./Index");
         }

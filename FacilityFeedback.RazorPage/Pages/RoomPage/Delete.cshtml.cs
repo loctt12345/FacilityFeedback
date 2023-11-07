@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FacilityFeedback.Data.Models;
 using FacilityFeedback.Service.IServices;
+using FacilityFeedback.Service.Services;
 
 namespace FacilityFeedback.RazorPage.Pages.RoomPage
 {
@@ -15,11 +16,13 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
         private readonly IRoomService _service;
         private readonly IFloorService _serviceFloor;
         private readonly IRoomTypeService _serviceRoomType;
-        public DeleteModel(IRoomService service, IFloorService floorService, IRoomTypeService roomTypeService)
+        private readonly IDeviceService _deviceService;
+        public DeleteModel(IRoomService service, IFloorService floorService, IRoomTypeService roomTypeService, IDeviceService deviceService)
         {
             _service = service;
             _serviceFloor = floorService;
             _serviceRoomType = roomTypeService;
+            _deviceService = deviceService;
         }
 
         [BindProperty]
@@ -45,7 +48,22 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            await _service.Delete(id);
+            var devices = await _deviceService.GetAllNoPaging();
+            var isExsitedDevice = false;
+            if (devices != null)
+            {
+                isExsitedDevice = devices.Where(x => x.RoomId == id).Any();
+            }
+            if (!isExsitedDevice)
+            {
+                await _service.Delete(id);
+            }
+            else
+            {
+                var updateDevice = devices?.Where(x => x.RoomId == id).Select(x => x.Room).FirstOrDefault();
+                updateDevice.Status = false;
+                await _service.Update(updateDevice);
+            }
 
             return RedirectToPage("./Index");
         }

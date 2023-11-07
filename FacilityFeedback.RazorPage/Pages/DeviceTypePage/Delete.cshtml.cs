@@ -52,7 +52,15 @@ namespace FacilityFeedback.RazorPage.Pages.DeviceTypePage
             if (devicetype != null)
             {
                 DeviceType = devicetype;
-                _context.DeviceType.Remove(DeviceType);
+                if (_context.Device.Where(x => x.DeviceTypeId == id).Any())
+                {
+                    DeviceType.Status = false;
+                    _context.DeviceType.Update(DeviceType);
+                }
+                else
+                {
+                    _context.DeviceType.Remove(DeviceType);
+                }
                 await _context.SaveChangesAsync();
             }
 
