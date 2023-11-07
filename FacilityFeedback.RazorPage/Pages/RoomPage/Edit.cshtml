@@ -14,6 +14,7 @@
                 <h6 class="mb-4">Edit Room Type</h6>
                 <form method="post">
                     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <span class="text-danger" style="color:red;">@ViewData["ErrorRoomCode"]</span>
                     @Html.TextBoxFor(m => m.Room.Id, new {@hidden = "true"})
 
                     <div class="row mb-3">

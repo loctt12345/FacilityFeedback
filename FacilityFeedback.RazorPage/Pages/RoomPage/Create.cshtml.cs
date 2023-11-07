@@ -43,6 +43,14 @@ namespace FacilityFeedback.RazorPage.Pages.RoomPage
             {
                 return Page();
             }
+            var isExistedRoomCode = (await _service.GetAllNoPaging()).Any(x=>x.RoomCode == Room.RoomCode);
+            if (isExistedRoomCode)
+            {
+                ViewData["ErrorRoomCode"] = "Room Code Exsited";
+                ViewData["FloorId"] = new SelectList(await _serviceFloor.GetAllNoPaging(), "Id", "Code");
+                ViewData["RoomTypeId"] = new SelectList(await _serviceRoomType.GetAllNoPaging(), "Id", "Description");
+                return Page();
+            }
             var result = await _service.Create(Room);
 
             return RedirectToPage("./Index");
